@@ -80,12 +80,11 @@ pipeline {
 
         }
       }
-    }
       post {
         always {
           junit testResults: '**/surefire-reports/*.xml'
         }
       }
-
+    }
   }
 }
