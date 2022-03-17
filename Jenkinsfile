@@ -57,6 +57,7 @@ pipeline {
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
             configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              sh "mvn install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
               sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet -am clean install -DskipTests -e"
             }
           }
