@@ -1,11 +1,8 @@
 package org.eclipse.jetty.tck;
 
-import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.jupiter.api.Test;
 import com.sun.ts.tests.servlet.api.jakarta_servlet_http.httpservlet.URLClient;
 
-
-import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,13 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class AppTest extends URLClient
 {
-    /**
-     * Rigorous Test :-)
-     */
+
     @Test
-    public void shouldAnswerWithTrue()
+    public void shouldAnswerWithTrue() throws Exception
     {
-        assertTrue( true );
+        //super.constructorIllegalArgumentExceptionTest();
     }
 
 }

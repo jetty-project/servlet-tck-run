@@ -2,6 +2,10 @@
 
 Currently it's really on work in progress only and need to build locally few projects
 
+### Current status result 
+
+cookie tests fail: need to setup jetty.httpConfig.requestCookieCompliance=RFC2965
+
 #### TCK Servlet build
 
 This will build only the servlet TCK module
