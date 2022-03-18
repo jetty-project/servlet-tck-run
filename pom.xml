@@ -116,6 +116,7 @@
             </dependenciesToScan>
             <includes>
               <include>**/URLClient*</include>
+              <include>**/Client*</include>
             </includes>
             <trimStackTrace>false</trimStackTrace>
           </configuration>
