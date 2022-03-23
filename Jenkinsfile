@@ -72,7 +72,7 @@ pipeline {
       }
     }
 
-    stage("cleanup"){
+    stage("cleanup again"){
       steps {
         sh "rm -rf *"
       }
