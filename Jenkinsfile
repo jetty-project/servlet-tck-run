@@ -23,14 +23,9 @@ pipeline {
       }
     }
 
-    stage("Checkout Arquillian Jetty") {
+    stage("Checkout Build Arquillian Jetty") {
       steps {
         git url: 'https://github.com/arquillian/arquillian-container-jetty', branch: 'master'
-      }
-    }
-
-    stage("Build Arquillian Jetty") {
-      steps {
         timeout(time: 30, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -44,14 +39,25 @@ pipeline {
       }
     }
 
-    stage("Checkout TCK Sources") {
+    stage("Checkout Build Maven Surefire") {
       steps {
-        git url: 'https://github.com/${GITHUB_ORG}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+        git url: 'https://github.com/apache/maven-surefire.git', branch: 'master'
+        timeout(time: 30, unit: 'MINUTES') {
+          withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
+                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                   "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+            configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
+            }
+          }
+
+        }
       }
     }
 
-    stage("Build TCK Sources") {
+    stage("Checkout Build TCK Sources") {
       steps {
+        git url: 'https://github.com/${GITHUB_ORG}/jakartaee-tck/', branch: '${TCK_BRANCH}'
         timeout(time: 30, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
