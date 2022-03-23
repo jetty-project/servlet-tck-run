@@ -72,6 +72,12 @@ pipeline {
       }
     }
 
+    stage("cleanup"){
+      steps {
+        sh "rm -rf *"
+      }
+    }
+
     stage("Checkout TCK Run") {
       steps {
         git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
