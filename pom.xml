@@ -17,6 +17,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <junit.version>5.8.2</junit.version>
+    <surefire.version>3.0.0-M5</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
   </properties>
 
   <dependencyManagement>
@@ -120,7 +121,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M6-SNAPSHOT</version>
+          <version>${surefire.version}</version>
           <dependencies>
             <dependency>
               <groupId>org.junit.jupiter</groupId>
