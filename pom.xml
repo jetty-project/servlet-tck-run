@@ -170,7 +170,7 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>apache-snapshots</id>
+      <id>apache.snapshots</id>
       <url>https://repository.apache.org/content/groups/snapshots</url>
       <releases>
         <enabled>false</enabled>
@@ -182,7 +182,7 @@
   </pluginRepositories>
   <repositories>
     <repository>
-      <id>apache-snapshots</id>
+      <id>apache.snapshots</id>
       <url>https://repository.apache.org/content/groups/snapshots</url>
       <releases>
         <enabled>false</enabled>
