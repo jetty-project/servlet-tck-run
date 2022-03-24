@@ -8,6 +8,10 @@ pipeline {
   parameters {
     string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
+
+    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/...)',
+            name: 'ARQUILLIAN_JETTY_BRANCH' )
+
     choice(
             description: 'Github org',
             name: 'GITHUB_ORG',
@@ -25,7 +29,7 @@ pipeline {
 
     stage("Checkout Build Arquillian Jetty") {
       steps {
-        git url: 'https://github.com/arquillian/arquillian-container-jetty', branch: 'master'
+        git url: 'https://github.com/arquillian/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
         timeout(time: 30, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
