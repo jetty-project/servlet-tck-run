@@ -146,11 +146,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${surefire.version}</version>
           <dependencies>
-            <dependency>
-              <groupId>org.junit.jupiter</groupId>
-              <artifactId>junit-jupiter-engine</artifactId>
-              <version>${junit.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--              <groupId>org.junit.jupiter</groupId>-->
+<!--              <artifactId>junit-jupiter-engine</artifactId>-->
+<!--              <version>${junit.version}</version>-->
+<!--            </dependency>-->
             <dependency>
               <groupId>jakartatck</groupId>
               <artifactId>junit5-extensions</artifactId>
