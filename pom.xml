@@ -19,7 +19,7 @@
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
     <jetty.version>11.0.8</jetty.version> <!-- 11.0.9-SNAPSHOT -->
-    <surefire.version>3.0.0-M5</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
+    <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
   </properties>
 
@@ -170,13 +170,13 @@
 
           </dependencies>
           <configuration>
-<!--            <includeJUnit5Engines>-->
-<!--              <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>-->
-<!--            </includeJUnit5Engines>-->
-<!--            <excludeJUnit5Engines>-->
-<!--              <excludeJUnit5Engine>junit-vintage</excludeJUnit5Engine>-->
-<!--              <excludeJUnit5Engine>junit-jupiter</excludeJUnit5Engine>-->
-<!--            </excludeJUnit5Engines>-->
+            <includeJUnit5Engines>
+              <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
+            </includeJUnit5Engines>
+            <excludeJUnit5Engines>
+              <excludeJUnit5Engine>junit-vintage</excludeJUnit5Engine>
+              <excludeJUnit5Engine>junit-jupiter</excludeJUnit5Engine>
+            </excludeJUnit5Engines>
             <dependenciesToScan>
               <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
             </dependenciesToScan>
@@ -194,7 +194,7 @@
 <!--      <plugin>-->
 <!--        <groupId>de.sormuras.junit</groupId>-->
 <!--        <artifactId>junit-platform-maven-plugin</artifactId>-->
-<!--        <version>1.2.0-SNAPSHOT</version>-->
+<!--        <version>1.1.6</version>-->
 <!--        <extensions>true</extensions>-->
 <!--        <configuration>-->
 <!--&lt;!&ndash;          <executor>JAVA</executor>&ndash;&gt;-->
