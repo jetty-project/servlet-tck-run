@@ -83,12 +83,6 @@ pipeline {
       }
     }
 
-    stage("Checkout TCK Run") {
-      steps {
-
-      }
-    }
-
     stage("Run TCK") {
       steps {
         ws('run-tck') {
