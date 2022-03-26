@@ -172,7 +172,7 @@
           <configuration>
             <!-- this need some times to run -->
             <argLine>-Xmx8g -Xms4g</argLine>
-            <forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
+            <forkedProcessTimeoutInSeconds>7200</forkedProcessTimeoutInSeconds>
             <includeJUnit5Engines>
               <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
             </includeJUnit5Engines>
