@@ -30,6 +30,7 @@ pipeline {
         stage("Checkout Build Arquillian Jetty") {
           steps {
             ws('arquillian') {
+              sh "rm -rf *"
               git url: 'https://github.com/arquillian/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
@@ -47,6 +48,7 @@ pipeline {
         stage("Checkout Build Maven Surefire") {
           steps {
             ws('surefire') {
+              sh "rm -rf *"
               git url: 'https://github.com/apache/maven-surefire.git', branch: 'master'
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
@@ -64,44 +66,43 @@ pipeline {
     }
     stage("Checkout Build TCK Sources") {
       steps {
-        git url: 'https://github.com/${GITHUB_ORG}/jakartaee-tck/', branch: '${TCK_BRANCH}'
-        timeout(time: 30, unit: 'MINUTES') {
-          withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
-                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                    "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-            configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-              sh "mvn --no-transfer-progress install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
-              sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e"
+        ws('arquillian') {
+          sh "rm -rf *"
+          git url: 'https://github.com/${GITHUB_ORG}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+          timeout(time: 30, unit: 'MINUTES') {
+            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                sh "mvn --no-transfer-progress install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
+                sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e"
+              }
             }
           }
-
         }
       }
     }
-//
-//    stage("cleanup again"){
-//      steps {
-//        sh "rm -rf *"
-//      }
-//    }
 
     stage("Checkout TCK Run") {
       steps {
-        git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
+
       }
     }
 
     stage("Run TCK") {
       steps {
-        timeout(time: 30, unit: 'MINUTES') {
-          withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
-                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                    "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-            configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-              sh "mvn -Dmaven.test.failure.ignore=true -nsu -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+        ws('run-tck') {
+          sh "rm -rf *"
+          git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
+          timeout(time: 30, unit: 'MINUTES') {
+            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                sh "mvn -Dmaven.test.failure.ignore=true -nsu -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+              }
             }
           }
-
         }
       }
       post {
