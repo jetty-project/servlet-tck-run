@@ -46,21 +46,21 @@ pipeline {
       }
     }
 
-//    stage("Checkout Build Maven Surefire") {
-//      steps {
-//        git url: 'https://github.com/apache/maven-surefire.git', branch: 'master'
-//        timeout(time: 30, unit: 'MINUTES') {
-//          withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
-//                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-//                   "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-//            configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-//              sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -Drat.skip=true -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true -Dcheckstyle.skip=true"
-//            }
-//          }
-//
-//        }
-//      }
-//    }
+    stage("Checkout Build Maven Surefire") {
+      steps {
+        git url: 'https://github.com/apache/maven-surefire.git', branch: 'master'
+        timeout(time: 30, unit: 'MINUTES') {
+          withEnv(["JAVA_HOME=${ tool "$JDKBUILD" }",
+                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                   "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+            configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -Drat.skip=true -V -B -U clean install -DskipTests -T5 -e -Denforcer.skip=true -Dcheckstyle.skip=true"
+            }
+          }
+
+        }
+      }
+    }
 
     stage("Checkout Build TCK Sources") {
       steps {
@@ -98,7 +98,7 @@ pipeline {
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
             configFileProvider( [configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-              sh "mvn -Dmaven.test.failure.ignore=true -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+              sh "mvn -Dmaven.test.failure.ignore=true -nsu -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
             }
           }
 
