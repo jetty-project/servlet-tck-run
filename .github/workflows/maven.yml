@@ -34,8 +34,9 @@ jobs:
       - name: Checkout Arquillian
         uses: actions/checkout@v3
         with:
-          - repository: 'https://github.com/arquillian/arquillian-container-jetty'
-          - ref: 'master'
+          repository: 'https://github.com/arquillian/arquillian-container-jetty'
+          ref: 'master'
+          
       - name: Checkout
         uses: actions/checkout@v2
 
