@@ -45,7 +45,7 @@ jobs:
           cache: 'maven'
 
       - name: Build Arquillian with Maven
-        run: mvn install -T4 -B
+        run: mvn install -B
 
       - name: Checkout Servlet TCK
         uses: actions/checkout@v3
