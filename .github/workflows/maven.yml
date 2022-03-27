@@ -36,7 +36,7 @@ jobs:
         with:
           repository: 'https://github.com/arquillian/arquillian-container-jetty'
           ref: 'master'
-          
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -53,8 +53,8 @@ jobs:
       - name: Checkout Servlet TCK
         uses: actions/checkout@v3
         with:
-          - repository: 'https://github.com/olamy/jakartaee-tck.git'
-          - ref: 'servlet-module-atleast'
+          repository: 'https://github.com/olamy/jakartaee-tck.git'
+          ref: 'servlet-module-atleast'
 
       - name: Set up JDK Servlet TCK
         uses: actions/setup-java@v2
