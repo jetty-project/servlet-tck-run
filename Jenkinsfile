@@ -88,7 +88,7 @@ pipeline {
         ws('run-tck') {
           sh "rm -rf *"
           git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
-          timeout(time: 30, unit: 'MINUTES') {
+          timeout(time: 120, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                      "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
