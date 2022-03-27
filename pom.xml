@@ -18,6 +18,7 @@
     <jetty.version>11.0.8</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
+    <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
   </properties>
 
   <dependencyManagement>
@@ -168,7 +169,7 @@
           </dependencies>
           <configuration>
             <!-- this need some times to run -->
-            <argLine>-Xmx8g -Xms4g</argLine>
+            <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <includeJUnit5Engines>
               <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
