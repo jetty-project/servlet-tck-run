@@ -25,21 +25,55 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        java: [11, 17]
+        java: [11]
       fail-fast: false
 
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Checkout Arquillian
+        uses: actions/checkout@v3
+        with:
+          - repository: 'https://github.com/arquillian/arquillian-container-jetty'
+          - ref: 'master'
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up JDK
+      - name: Set up JDK Arquillian
         uses: actions/setup-java@v2
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 11
           distribution: 'adopt'
           cache: 'maven'
 
-      - name: Build with Maven
-        run: mvn verify -B
+      - name: Build Arquillian with Maven
+        run: mvn install  -B
+
+      - name: Checkout Servlet TCK
+        uses: actions/checkout@v3
+        with:
+          - repository: 'https://github.com/olamy/jakartaee-tck.git'
+          - ref: 'servlet-module-atleast'
+
+      - name: Set up JDK Servlet TCK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          cache: 'maven'
+
+      - name: Build Servlet TCK with Maven
+        run: mvn -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e  -B
+
+      - name: Checkout TCK Run
+        uses: actions/checkout@v3
+
+      - name: Set up JDK TCK Run
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'
+          cache: 'maven'
+
+      - name: Build TCK Run with Maven
+        run: mvn -V -B -U -am clean verify -e  -B
