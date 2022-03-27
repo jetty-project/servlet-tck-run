@@ -78,3 +78,6 @@ jobs:
 
       - name: Build TCK Run with Maven
         run: mvn -V -B -U -am clean verify -e  -B
+
+      - name: Publish Test Report
+        uses: scacap/action-surefire-report@v1
