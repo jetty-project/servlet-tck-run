@@ -37,9 +37,6 @@ jobs:
           repository: 'arquillian/arquillian-container-jetty'
           ref: 'master'
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
       - name: Set up JDK Arquillian
         uses: actions/setup-java@v2
         with:
