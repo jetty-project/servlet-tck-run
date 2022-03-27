@@ -95,16 +95,18 @@ pipeline {
               configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                 sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
                 // -Dmaven.test.failure.ignore=true
+                sh "ls -lrt target/surefire-reports"
+                junit testResults: '**/surefire-reports/TEST-**.xml'
               }
             }
           }
         }
       }
-      post {
-        always {
-          junit testResults: '**/surefire-reports/TEST-**.xml'
-        }
-      }
+//      post {
+//        always {
+//          junit testResults: '**/surefire-reports/TEST-**.xml'
+//        }
+//      }
     }
   }
 }
