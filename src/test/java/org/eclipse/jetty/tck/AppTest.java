@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Unit test for simple App.
  */
-public class AppTest extends com.sun.ts.tests.servlet.spec.security.annotations.Client
+public class AppTest extends com.sun.ts.tests.servlet.spec.multifiltermapping.URLClient // com.sun.ts.tests.servlet.spec.security.annotations.Client
 {
 
 }
