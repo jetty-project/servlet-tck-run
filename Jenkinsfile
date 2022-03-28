@@ -9,15 +9,20 @@ pipeline {
     string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
 
-    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/...)',
+    string( defaultValue: 'tck-all-changes', description: 'GIT branch name to build arquillian Jetty (master/...)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     string( defaultValue: '11.0.9-SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
     choice(
-            description: 'Github org',
-            name: 'GITHUB_ORG',
+            description: 'Arquillian Github org',
+            name: 'GITHUB_ORG_ARQUILLIAN',
+            choices: ['olamy','arquillian'] )
+
+    choice(
+            description: 'TCK Github org',
+            name: 'GITHUB_ORG_TCK',
             choices: ['olamy','eclipse-ee4j']
     )
     string( defaultValue: 'jdk11', description: 'JDK to build Jetty', name: 'JDKBUILD' )
@@ -31,7 +36,7 @@ pipeline {
           steps {
             ws('arquillian') {
               sh "rm -rf *"
-              git url: 'https://github.com/arquillian/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
+              git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -68,7 +73,7 @@ pipeline {
       steps {
         ws('arquillian') {
           sh "rm -rf *"
-          git url: 'https://github.com/${GITHUB_ORG}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+          git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
