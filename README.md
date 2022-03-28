@@ -4,7 +4,9 @@ Currently it's really on work in progress only and need to build locally few pro
 
 ### Current status result 
 
-cookie tests fail: need to setup jetty.httpConfig.requestCookieCompliance=RFC2965
+https://jenkins.webtide.net/job/tck/job/tck-servlet-arquillian-experiment/
+or 
+gh action of this project 
 
 #### TCK Servlet build
 
