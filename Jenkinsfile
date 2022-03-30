@@ -6,8 +6,11 @@ pipeline {
     buildDiscarder logRotator( numToKeepStr: '50' )
   }
   parameters {
-    string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build (master/servlet-module-atleast)',
+    string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
+
+    string( defaultValue: 'jetty-11.0.x', description: 'GIT branch name to build Jetty (jetty-11.0.x)',
+            name: 'JETTY_BRANCH' )
 
     string( defaultValue: 'tck-all-changes', description: 'GIT branch name to build arquillian Jetty (master/...)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
@@ -67,6 +70,25 @@ pipeline {
             }
           }
         }
+
+        stage("Checkout Build Jetty 11.0.x") {
+          steps {
+            ws('surefire') {
+              sh "rm -rf *"
+              git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
+              timeout(time: 30, unit: 'MINUTES') {
+                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
+                  }
+                }
+              }
+            }
+          }
+        }
+
       }
     }
     stage("Checkout Build TCK Sources") {
