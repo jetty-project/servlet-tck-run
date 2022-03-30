@@ -71,23 +71,23 @@ pipeline {
           }
         }
 
-        stage("Checkout Build Jetty 11.0.x") {
-          steps {
-            ws('jetty') {
-              sh "rm -rf *"
-              git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
-              timeout(time: 30, unit: 'MINUTES') {
-                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
-                  }
-                }
-              }
-            }
-          }
-        }
+//        stage("Checkout Build Jetty 11.0.x") {
+//          steps {
+//            ws('jetty') {
+//              sh "rm -rf *"
+//              git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
+//              timeout(time: 30, unit: 'MINUTES') {
+//                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+//                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+//                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+//                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+//                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
+//                  }
+//                }
+//              }
+//            }
+//          }
+//        }
 
       }
     }

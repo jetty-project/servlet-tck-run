@@ -15,6 +15,10 @@
         <property name="responseCookieCompliance">RFC2965</property>
         <property name="realmProperties">src/test/resources/default.properties</property>
         <property name="useArchiveNameAsContext">true</property>
+        <property name="inferredEncodings">
+          text/html iso-8859-1
+        </property>
+
       </configuration>
     </container>
 
