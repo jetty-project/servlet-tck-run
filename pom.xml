@@ -16,7 +16,7 @@
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
     <arquillian.core.version>1.7.0.Alpha10</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
-    <jetty.version>11.0.8</jetty.version> <!-- 11.0.9-SNAPSHOT -->
+    <jetty.version>11.0.9-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
@@ -51,7 +51,6 @@
       <groupId>org.jboss.arquillian.container</groupId>
       <artifactId>arquillian-jetty-embedded-11</artifactId>
       <version>1.0.0.Final-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -239,6 +238,16 @@
     <repository>
       <id>apache.snapshots</id>
       <url>https://repository.apache.org/content/groups/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>jetty.snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/jetty-snapshots/</url>
       <releases>
         <enabled>false</enabled>
       </releases>
