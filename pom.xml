@@ -12,6 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.sources>11</maven.compiler.sources>
     <maven.compiler.release>11</maven.compiler.release>
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
@@ -112,7 +113,6 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.jboss.arquillian.container</groupId>
       <artifactId>arquillian-container-test-spi</artifactId>
@@ -125,6 +125,34 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- just make Intellij/jpms happy when having all the projects together -->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-slf4j-impl</artifactId>-->
+<!--      <version>${jetty.version}</version>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-jmx</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-util-ajax</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-client</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty.tests</groupId>-->
+<!--      <artifactId>jetty-http-tools</artifactId>-->
+<!--      <version>${jetty.version}</version>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
   </dependencies>
 
   <build>
@@ -187,9 +215,9 @@
               <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
             </dependenciesToScan>
             <includes>
-              <include>**/URLClient*</include>
-              <include>**/Client*</include>
-<!--              <include>**/jakarta_servlet/servletresponsewrapper/URLClient*</include>-->
+<!--              <include>**/URLClient*</include>-->
+<!--              <include>**/Client*</include>-->
+<!--              <include>**/jakarta_servlet/scinitializer/addfilter1/URLClient*</include>-->
             </includes>
             <trimStackTrace>false</trimStackTrace>
           </configuration>

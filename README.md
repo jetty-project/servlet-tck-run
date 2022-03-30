@@ -1,6 +1,9 @@
 ### Servlet TCK using arquillian and test Jetty 11.0.x
 
-Currently it's really on work in progress only and need to build locally few projects
+Currently, it's really on work in progress only and need to build locally few projects
+
+Known failures:
+- com.sun.ts.tests.servlet.spec.errorpage.URLClient (need https://github.com/eclipse/jetty.project/pull/7803)
 
 ### Current status result 
 
