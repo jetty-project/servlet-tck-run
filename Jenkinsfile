@@ -73,7 +73,7 @@ pipeline {
 
         stage("Checkout Build Jetty 11.0.x") {
           steps {
-            ws('surefire') {
+            ws('jetty') {
               sh "rm -rf *"
               git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
               timeout(time: 30, unit: 'MINUTES') {
