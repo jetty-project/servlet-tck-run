@@ -12,7 +12,7 @@ pipeline {
     string( defaultValue: 'jetty-11.0.x', description: 'GIT branch name to build Jetty (jetty-11.0.x)',
             name: 'JETTY_BRANCH' )
 
-    string( defaultValue: ' https-connector', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
+    string( defaultValue: 'https-connector', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     string( defaultValue: '11.0.9-SNAPSHOT', description: 'Jetty Version',
