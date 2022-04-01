@@ -153,6 +153,11 @@
 <!--      <scope>compile</scope>-->
 <!--    </dependency>-->
 <!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-util</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
 <!--      <groupId>org.eclipse.jetty.tests</groupId>-->
 <!--      <artifactId>jetty-http-tools</artifactId>-->
 <!--      <version>${jetty.version}</version>-->
@@ -216,7 +221,7 @@
             <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR -Djava.protocol.handler.pkgs=javax.net.ssl
               -Djavax.net.ssl.keyStore=${project.build.testOutputDirectory}/certificates/clientcert.jks
               -Djavax.net.ssl.keyStorePassword=changeit
-              -Djavax.net.ssl.trustStore=$${project.build.directory}/cacerts.jks</argLine>
+              -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <includeJUnit5Engines>
               <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
