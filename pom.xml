@@ -17,7 +17,7 @@
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
     <arquillian.core.version>1.7.0.Alpha10</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
-    <jetty.version>11.0.9-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
+    <jetty.version>11.0.8</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
@@ -91,7 +91,7 @@
     <dependency>
       <groupId>jakartatck</groupId>
       <artifactId>libutil</artifactId>
-      <version>10.0.0-SNAPSHOT</version>
+      <version>${jakarta.tck.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -148,6 +148,11 @@
 <!--      <scope>compile</scope>-->
 <!--    </dependency>-->
 <!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-xml</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
 <!--      <groupId>org.eclipse.jetty.tests</groupId>-->
 <!--      <artifactId>jetty-http-tools</artifactId>-->
 <!--      <version>${jetty.version}</version>-->
@@ -156,12 +161,18 @@
   </dependencies>
 
   <build>
+
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -202,7 +213,10 @@
           </dependencies>
           <configuration>
             <!-- this need some times to run -->
-            <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR</argLine>
+            <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR -Djava.protocol.handler.pkgs=javax.net.ssl
+              -Djavax.net.ssl.keyStore=${project.build.testOutputDirectory}/certificates/clientcert.jks
+              -Djavax.net.ssl.keyStorePassword=changeit
+              -Djavax.net.ssl.trustStore=$${project.build.directory}/cacerts.jks</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <includeJUnit5Engines>
               <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
@@ -248,6 +262,65 @@
 <!--        </dependencies>-->
 <!--      </plugin>-->
 <!--    </plugins>-->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>jakartatck</groupId>
+                  <artifactId>libutil</artifactId>
+<!--                  <version>${jakarta.tck.version}</version>-->
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.testOutputDirectory}/</outputDirectory>
+                  <includes>**/**cts_cert,**/**clientcert.jks,**/**clientcert.p12</includes>
+<!--                  <excludes>**/*test.class</excludes>-->
+                </artifactItem>
+              </artifactItems>
+<!--              <includes>**/*.java</includes>-->
+<!--              <excludes>**/*.properties</excludes>-->
+<!--              <outputDirectory>${project.build.directory}/certificates</outputDirectory>-->
+<!--              <overWriteReleases>false</overWriteReleases>-->
+<!--              <overWriteSnapshots>true</overWriteSnapshots>-->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>keytool-maven-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>importCertificate</goal>
+            </goals>
+            <phase>process-test-resources</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- "$JAVA_HOME/bin/keytool -import -noprompt -alias cts -dname \"CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US\"
+          -file servlet-tck/bin/certificates/cts_cert -storetype JKS  -keystore cacerts.jks -storepass changeit -keypass changeit" -->
+          <noprompt>true</noprompt>
+          <alias>cts</alias>
+          <dname>CN=CTS, OU=Java Software, O=Sun Microsystems Inc., L=Burlington, ST=MA, C=US</dname>
+          <file>${project.build.testOutputDirectory}/certificates/cts_cert</file>
+          <storetype>JKS</storetype>
+          <keystore>${project.build.directory}/cacerts.jks</keystore>
+          <storepass>changeit</storepass>
+          <keypass>changeit</keypass>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <pluginRepositories>
