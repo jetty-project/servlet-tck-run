@@ -32,18 +32,18 @@ jobs:
 
     steps:
 
+      - name: Checkout Arquillian
+        uses: actions/checkout@v3
+        with:
+          repository: 'arquillian/arquillian-container-jetty'
+          ref: 'https-connector'
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: 11
           distribution: 'adopt'
           cache: 'maven'
-
-      - name: Checkout Arquillian
-        uses: actions/checkout@v3
-        with:
-          repository: 'arquillian/arquillian-container-jetty'
-          ref: 'https-connector'
 
       - name: Build Arquillian with Maven
         run: mvn install -B
