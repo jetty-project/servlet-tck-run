@@ -31,18 +31,19 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout Arquillian
-        uses: actions/checkout@v3
-        with:
-          repository: 'arquillian/arquillian-container-jetty'
-          ref: 'https-connector'
 
-      - name: Set up JDK Arquillian
+      - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: 11
           distribution: 'adopt'
           cache: 'maven'
+
+      - name: Checkout Arquillian
+        uses: actions/checkout@v3
+        with:
+          repository: 'arquillian/arquillian-container-jetty'
+          ref: 'https-connector'
 
       - name: Build Arquillian with Maven
         run: mvn install -B
@@ -53,13 +54,6 @@ jobs:
           repository: 'olamy/jakartaee-tck'
           ref: 'servlet-module-atleast'
 
-      - name: Set up JDK Servlet TCK
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          cache: 'maven'
-
       - name: Install legacy javatest jar
         run: mvn  -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar
 
@@ -68,13 +62,6 @@ jobs:
 
       - name: Checkout TCK Run
         uses: actions/checkout@v3
-
-      - name: Set up JDK TCK Run
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-          distribution: 'adopt'
-          cache: 'maven'
 
       - name: Build TCK Run with Maven
         run: mvn -V -B -U -am clean verify -e  -B
