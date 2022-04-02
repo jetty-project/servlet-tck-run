@@ -17,10 +17,11 @@
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
     <arquillian.core.version>1.7.0.Alpha10</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
-    <jetty.version>11.0.8</jetty.version> <!-- 11.0.9-SNAPSHOT -->
+    <jetty.version>11.0.9-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
+    <classesNamesTests></classesNamesTests>
   </properties>
 
   <dependencyManagement>
@@ -56,6 +57,10 @@
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-deploy</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty.http2</groupId>
+      <artifactId>http2-server</artifactId>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -149,6 +154,11 @@
 <!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-webapp</artifactId>-->
+<!--      <scope>compile</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
 <!--      <artifactId>jetty-xml</artifactId>-->
 <!--      <scope>compile</scope>-->
 <!--    </dependency>-->
@@ -218,7 +228,8 @@
           </dependencies>
           <configuration>
             <!-- this need some times to run -->
-            <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR -Djava.protocol.handler.pkgs=javax.net.ssl
+            <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR
+              -Djava.protocol.handler.pkgs=javax.net.ssl
               -Djavax.net.ssl.keyStore=${project.build.testOutputDirectory}/certificates/clientcert.jks
               -Djavax.net.ssl.keyStorePassword=changeit
               -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
@@ -233,6 +244,9 @@
             <dependenciesToScan>
               <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
             </dependenciesToScan>
+            <systemProperties>
+              <jakarta.tck.junit5.TckTestEngine.classesNames>${classesNamesTests}</jakarta.tck.junit5.TckTestEngine.classesNames>
+            </systemProperties>
             <includes>
 <!--              <include>**/URLClient*</include>-->
 <!--              <include>**/Client*</include>-->

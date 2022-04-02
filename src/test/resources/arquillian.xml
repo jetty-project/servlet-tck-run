@@ -18,6 +18,7 @@
         <property name="inferredEncodings">
           text/html iso-8859-1
         </property>
+        <property name="h2cEnabled">true</property>
       </configuration>
     </container>
 
@@ -39,27 +40,9 @@
         <property name="needClientAuth">true</property>
         <property name="sniRequired">false</property>
         <property name="sniHostCheck">false</property>
+        <property name="h2cEnabled">true</property>
       </configuration>
     </container>
   </group>
 
-<!--  <container qualifier="http" default="true">-->
-<!--    <configuration>-->
-<!--      <property name="bindHttpPort">0</property>-->
-<!--      <property name="requestCookieCompliance">RFC2965</property>-->
-<!--      <property name="responseCookieCompliance">RFC2965</property>-->
-<!--      <property name="realmProperties">src/test/resources/default.properties</property>-->
-<!--      <property name="useArchiveNameAsContext">true</property>-->
-<!--    </configuration>-->
-<!--  </container>-->
-
-<!--  <container qualifier="https">-->
-<!--    <configuration>-->
-<!--      <property name="bindHttpPort">0</property>-->
-<!--      <property name="requestCookieCompliance">RFC2965</property>-->
-<!--      <property name="responseCookieCompliance">RFC2965</property>-->
-<!--      <property name="realmProperties">src/test/resources/default.properties</property>-->
-<!--      <property name="useArchiveNameAsContext">true</property>-->
-<!--    </configuration>-->
-<!--  </container>-->
 </arquillian>
