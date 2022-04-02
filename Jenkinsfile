@@ -131,7 +131,7 @@ pipeline {
       post {
         always {
           ws('run-tck') {
-            junit testResults: '**/surefire-reports/TEST-**.xml'
+            junit testResults: '**/tck-tests-reports/TEST-**.xml'
           }
         }
       }
