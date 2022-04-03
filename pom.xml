@@ -17,11 +17,12 @@
     <junit.version>5.8.2</junit.version>
     <slf4j.version>1.7.36</slf4j.version>
     <arquillian.core.version>1.7.0.Alpha10</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
-    <jetty.version>11.0.9-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
+    <jetty.version>11.0.10-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M6-SNAPSHOT</surefire.version> <!-- 3.0.0-M6-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
     <classesNamesTests></classesNamesTests>
+    <http2.timeout></http2.timeout>
   </properties>
 
   <dependencyManagement>
@@ -246,6 +247,7 @@
             </dependenciesToScan>
             <systemProperties>
               <jakarta.tck.junit5.TckTestEngine.classesNames>${classesNamesTests}</jakarta.tck.junit5.TckTestEngine.classesNames>
+              <http2.timeout>${http2.timeout}</http2.timeout>
             </systemProperties>
             <includes>
 <!--              <include>**/URLClient*</include>-->
