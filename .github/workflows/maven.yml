@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'arquillian/arquillian-container-jetty'
-          ref: 'https-connector'
+          ref: 'master'
 
       - name: Set up JDK
         uses: actions/setup-java@v2
@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build TCK Run with Maven
-        run: mvn -V -B -U -am clean verify -e  -B
+        run: mvn -V -B -U -am clean verify -e  -B 
 
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
