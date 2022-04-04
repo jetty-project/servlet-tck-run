@@ -15,7 +15,7 @@ pipeline {
     string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
-    string( defaultValue: '11.0.9-SNAPSHOT', description: 'Jetty Version',
+    string( defaultValue: '11.0.10-SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
     choice(
