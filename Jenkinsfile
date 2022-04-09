@@ -83,7 +83,7 @@ pipeline {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                     sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
                     script {
-                      if (JETTY_VERSION == SNAPSHOT) {
+                      if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
                         JETTY_VERSION = model.getVersion()
                         //jetty_version = model.getVersion()
