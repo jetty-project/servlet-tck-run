@@ -15,7 +15,7 @@ pipeline {
     string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
-    string( defaultValue: '11.0.10-SNAPSHOT', description: 'Jetty Version',
+    string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
     choice(
@@ -82,6 +82,13 @@ pipeline {
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                     sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
+                    script {
+                      if (JETTY_VERSION == SNAPSHOT) {
+                        def model = readMavenPom file: 'pom.xml'
+                        JETTY_VERSION = model.getVersion()
+                        //jetty_version = model.getVersion()
+                      }
+                    }
                   }
                 }
               }
