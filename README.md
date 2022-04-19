@@ -2,8 +2,9 @@
 
 Currently, it's really on work in progress only and need to build locally few projects
 
-Known failures:
-- com.sun.ts.tests.servlet.spec.errorpage.URLClient (need https://github.com/eclipse/jetty.project/pull/7803)
+Current tests failures:
+- com.sun.ts.tests.servlet.api.jakarta_servlet.singlethreadmodel.URLClient.singleModelTest() (Jetty does not support Servlet Single Thread Model)
+- com.sun.ts.tests.servlet.api.jakarta_servlet_http.sessioncookieconfig.URLClient.constructortest1() (need to update from `master` branch)
 
 ### Current status result 
 
@@ -18,7 +19,7 @@ This will build only the servlet TCK module
 git clone https://github.com/olamy/jakartaee-tck.git
 cd jakartaee-tck
 git checkout servlet-module-atleast
-mvn install -pl :servlet -am
+clean install -pl :servlet,:junit5-extensions -am
 ```
 
 #### Arquillian Jetty 11.0.x support 
