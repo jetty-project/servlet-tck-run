@@ -225,7 +225,6 @@
               <artifactId>junit5-extensions</artifactId>
               <version>${jakarta.tck.version}</version>
             </dependency>
-
           </dependencies>
           <configuration>
             <!-- this need some times to run -->
@@ -339,6 +338,7 @@
           <keystore>${project.build.directory}/cacerts.jks</keystore>
           <storepass>changeit</storepass>
           <keypass>changeit</keypass>
+          <skipIfExist>true</skipIfExist>
         </configuration>
       </plugin>
     </plugins>
