@@ -21,7 +21,6 @@
     <surefire.version>3.0.0-M6</surefire.version> <!-- 3.0.0-M7-SNAPSHOT -->
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
-    <classesNamesTests></classesNamesTests>
     <http2.timeout></http2.timeout>
   </properties>
 
@@ -245,7 +244,6 @@
               <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
             </dependenciesToScan>
             <systemProperties>
-              <jakarta.tck.junit5.TckTestEngine.classesNames>${classesNamesTests}</jakarta.tck.junit5.TckTestEngine.classesNames>
               <http2.timeout>${http2.timeout}</http2.timeout>
             </systemProperties>
             <includes>

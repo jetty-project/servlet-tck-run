@@ -42,7 +42,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 11
-          distribution: 'adopt'
+          distribution: 'temurin'
           cache: 'maven'
 
       - name: Build Arquillian with Maven
@@ -68,3 +68,5 @@ jobs:
 
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
+        with:
+          report_paths: '**/target/tck-tests-reports/**.xml'
