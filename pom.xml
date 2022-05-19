@@ -296,19 +296,12 @@
                 <artifactItem>
                   <groupId>jakartatck</groupId>
                   <artifactId>libutil</artifactId>
-<!--                  <version>${jakarta.tck.version}</version>-->
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.testOutputDirectory}/</outputDirectory>
                   <includes>**/**cts_cert,**/**clientcert.jks,**/**clientcert.p12</includes>
-<!--                  <excludes>**/*test.class</excludes>-->
                 </artifactItem>
               </artifactItems>
-<!--              <includes>**/*.java</includes>-->
-<!--              <excludes>**/*.properties</excludes>-->
-<!--              <outputDirectory>${project.build.directory}/certificates</outputDirectory>-->
-<!--              <overWriteReleases>false</overWriteReleases>-->
-<!--              <overWriteSnapshots>true</overWriteSnapshots>-->
             </configuration>
           </execution>
         </executions>

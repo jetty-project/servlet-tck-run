@@ -73,6 +73,7 @@ pipeline {
 
         stage("Checkout Build Jetty 11.0.x") {
           steps {
+          container('jetty-build') {
             ws('jetty') {
               sh "rm -rf *"
               git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
@@ -95,12 +96,14 @@ pipeline {
               }
             }
           }
+          }
         }
 
       }
     }
     stage("Checkout Build TCK Sources") {
       steps {
+      container('jetty-build') {
         ws('arquillian') {
           sh "rm -rf *"
           git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
@@ -116,10 +119,12 @@ pipeline {
           }
         }
       }
+      }
     }
 
     stage("Run TCK") {
       steps {
+      container('jetty-build') {
         ws('run-tck') {
           sh "rm -rf *"
           git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
@@ -135,6 +140,7 @@ pipeline {
             }
           }
         }
+      }
       }
       post {
         always {
