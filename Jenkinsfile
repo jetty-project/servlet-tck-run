@@ -36,6 +36,7 @@ pipeline {
     stage('Build External') {
       parallel {
         stage("Checkout Build Arquillian Jetty") {
+        container('jetty-build') {
           steps {
             ws('arquillian') {
               sh "rm -rf *"
@@ -52,7 +53,7 @@ pipeline {
             }
           }
         }
-
+        }
 //        stage("Checkout Build Maven Surefire") {
 //          steps {
 //            ws('surefire') {
