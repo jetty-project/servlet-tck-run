@@ -36,8 +36,8 @@ pipeline {
     stage('Build External') {
       parallel {
         stage("Checkout Build Arquillian Jetty") {
-        container('jetty-build') {
           steps {
+          container('jetty-build') {
             ws('arquillian') {
               sh "rm -rf *"
               git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
@@ -52,7 +52,7 @@ pipeline {
               }
             }
           }
-        }
+          }
         }
 //        stage("Checkout Build Maven Surefire") {
 //          steps {
