@@ -75,3 +75,4 @@ jobs:
         uses: scacap/action-surefire-report@v1
         with:
           report_paths: '**/target/tck-tests-reports/**.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
