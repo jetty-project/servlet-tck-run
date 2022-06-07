@@ -71,8 +71,3 @@ jobs:
       - name: Build TCK Run with Maven
         run: mvn -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
 
-      - name: Publish Test Report
-        uses: scacap/action-surefire-report@v1
-        with:
-          report_paths: '**/target/tck-tests-reports/**.xml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
