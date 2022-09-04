@@ -48,6 +48,16 @@
       <groupId>jakartatck</groupId>
       <artifactId>servlet</artifactId>
       <version>${jakarta.tck.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.glassfish.metro</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jboss.arquillian.container</groupId>
@@ -97,6 +107,12 @@
       <groupId>jakartatck</groupId>
       <artifactId>libutil</artifactId>
       <version>${jakarta.tck.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.glassfish.metro</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -186,11 +202,6 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.0</version>
         </plugin>
@@ -254,6 +265,11 @@
             <trimStackTrace>false</trimStackTrace>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.basepom.maven</groupId>
+          <artifactId>duplicate-finder-maven-plugin</artifactId>
+          <version>1.5.1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 <!--    <plugins>-->
@@ -284,6 +300,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>unpack</id>
