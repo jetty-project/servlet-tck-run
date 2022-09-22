@@ -15,7 +15,7 @@
     <maven.compiler.sources>11</maven.compiler.sources>
     <maven.compiler.release>11</maven.compiler.release>
     <junit.version>5.9.0</junit.version>
-    <slf4j.version>2.0.1</slf4j.version>
+    <slf4j.version>2.0.2</slf4j.version>
     <arquillian.core.version>1.7.0.Alpha12</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
     <jetty.version>11.0.11</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.0.0-M7</surefire.version> <!-- 3.0.0-M7-SNAPSHOT -->
