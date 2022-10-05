@@ -133,7 +133,7 @@ pipeline {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                      "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
-              configFileProvider([configFile(fileId: 'mirror-all', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                 sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
                 // -Dmaven.test.failure.ignore=true
                 //junit testResults: '**/surefire-reports/TEST-**.xml'
