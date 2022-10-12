@@ -9,6 +9,9 @@ pipeline {
     string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
 
+    string( defaultValue: 'jetty-11', description: 'GIT branch name to run TCK (jetty-12-ee10, jetty-11)',
+            name: 'TCK_RUN_BRANCH' )
+
     string( defaultValue: 'jetty-11.0.x', description: 'GIT branch name to build Jetty (jetty-11.0.x)',
             name: 'JETTY_BRANCH' )
 
@@ -128,7 +131,7 @@ pipeline {
       container('jetty-build') {
         ws('run-tck') {
           sh "rm -rf *"
-          git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: 'main'
+          git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: '${TCK_RUN_BRANCH}'
           timeout(time: 120, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
