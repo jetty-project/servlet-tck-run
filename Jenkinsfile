@@ -12,10 +12,6 @@ pipeline {
     string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
 
-    string( defaultValue: 'jetty-12-ee10', description: 'GIT branch name to run TCK (jetty-12-ee10, jetty-11)',
-            name: 'TCK_RUN_BRANCH' )
-
-
     string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
             name: 'JETTY_BRANCH' )
 
@@ -135,23 +131,19 @@ pipeline {
 
     stage("Run TCK") {
       steps {
-      container('jetty-build') {
-        //ws('run-tck') {
-          //sh "rm -rf *"
-          //git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: '${TCK_RUN_BRANCH}'
-          timeout(time: 120, unit: 'MINUTES') {
-            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                     "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
-              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
-                // -Dmaven.test.failure.ignore=true
-                //junit testResults: '**/surefire-reports/TEST-**.xml'
+        container('jetty-build') {
+            timeout(time: 120, unit: 'MINUTES') {
+              withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                       "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                       "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
+                configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                  sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+                  // -Dmaven.test.failure.ignore=true
+                  //junit testResults: '**/surefire-reports/TEST-**.xml'
+                }
               }
             }
-          }
-        //}
-      }
+        }
       }
       post {
         always {
