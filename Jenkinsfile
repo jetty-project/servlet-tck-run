@@ -28,7 +28,7 @@ pipeline {
             name: 'GITHUB_ORG_TCK',
             choices: ['olamy','eclipse-ee4j']
     )
-    string( defaultValue: 'jdk11', description: 'JDK to build Jetty', name: 'JDKBUILD' )
+    string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
   }
 
   stages {
