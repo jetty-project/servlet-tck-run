@@ -42,8 +42,12 @@ pipeline {
           steps {
             container('jetty-build') {
               ws('arquillian') {
-                sh "rm -rf *"
-                git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
+                deleteDir()
+                checkout([$class: 'GitSCM',
+                          branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
+                          extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                          userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
+                //git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
                 timeout(time: 30, unit: 'MINUTES') {
                   withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                            "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -112,8 +116,12 @@ pipeline {
       steps {
         container('jetty-build') {
           ws('arquillian') {
-            sh "rm -rf *"
-            git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+            deleteDir()
+            checkout([$class: 'GitSCM',
+                      branches: [[name: "*/$TCK_BRANCH"]],
+                      extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                      userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/']]])
+            //git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
             timeout(time: 30, unit: 'MINUTES') {
               withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                        "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -132,7 +140,6 @@ pipeline {
     stage("Run TCK") {
       steps {
         container('jetty-build') {
-          //ws('run-tck') {
           timeout(time: 120, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -144,14 +151,11 @@ pipeline {
               }
             }
           }
-          //}
         }
       }
       post {
         always {
-          ws('run-tck') {
-            junit testResults: '**/tck-tests-reports/TEST-**.xml'
-          }
+          junit testResults: '**/tck-tests-reports/TEST-**.xml'
         }
       }
     }
