@@ -1,9 +1,9 @@
 package org.eclipse.jetty.tck;
 
 
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.jboss.arquillian.container.jetty.embedded_11.WebAppContextProcessor;
+import org.eclipse.jetty.ee10.servlet.ErrorPageErrorHandler;
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.jboss.arquillian.container.jetty.embedded_12_ee10.WebAppContextProcessor;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
@@ -17,7 +17,7 @@ public class JettyErrorHandlerWebAppContextProcessor implements WebAppContextPro
         if ("servlet_spec_errorpage_web.war".equals(archive.getName())) {
             ErrorPageErrorHandler errorPageErrorHandler = new ErrorPageErrorHandler();
             errorPageErrorHandler.setUnwrapServletException(true);
-            webAppContext.setErrorHandler(errorPageErrorHandler);
+            webAppContext.setErrorProcessor(errorPageErrorHandler);
         }
         if ("servlet_spec_fragment_web.war".equals(archive.getName())) {
             URL url = Thread.currentThread().getContextClassLoader()
