@@ -42,8 +42,11 @@ pipeline {
           steps {
           container('jetty-build') {
             ws('arquillian') {
-              sh "rm -rf *"
-              git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
+              deleteDir()
+              checkout([$class: 'GitSCM',
+                        branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
+                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                        userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -112,8 +115,11 @@ pipeline {
       steps {
       container('jetty-build') {
         ws('arquillian') {
-          sh "rm -rf *"
-          git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+          deleteDir()
+          checkout([$class: 'GitSCM',
+                    branches: [[name: "*/$TCK_BRANCH"]],
+                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck']]])
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
