@@ -80,8 +80,11 @@ pipeline {
           steps {
           container('jetty-build') {
             ws('jetty') {
-              sh "rm -rf *"
-              git url: 'https://github.com/eclipse/jetty.project.git', branch: '${JETTY_BRANCH}'
+              deleteDir()
+              checkout([$class: 'GitSCM',
+                        branches: [[name: "*/$JETTY_BRANCH"]],
+                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true, reference: "/home/jenkins/jetty.project.git"]],
+                        userRemoteConfigs: [[url: 'https://github.com/eclipse/jetty.project.git']]])
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -130,9 +133,9 @@ pipeline {
     stage("Run TCK") {
       steps {
       container('jetty-build') {
-        ws('run-tck') {
-          sh "rm -rf *"
-          git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: '${TCK_RUN_BRANCH}'
+        //ws('run-tck') {
+          //sh "rm -rf *"
+          //git url: 'https://github.com/jetty-project/servlet-tck-run.git', branch: '${TCK_RUN_BRANCH}'
           timeout(time: 120, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
@@ -144,7 +147,7 @@ pipeline {
               }
             }
           }
-        }
+        //}
       }
       }
       post {
