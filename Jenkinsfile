@@ -40,7 +40,6 @@ pipeline {
       parallel {
         stage("Checkout Build Arquillian Jetty") {
           steps {
-          container('jetty-build') {
             ws('arquillian') {
               deleteDir()
               checkout([$class: 'GitSCM',
@@ -57,7 +56,6 @@ pipeline {
                 }
               }
             }
-          }
           }
         }
 //        stage("Checkout Build Maven Surefire") {
@@ -80,7 +78,6 @@ pipeline {
 
         stage("Checkout Build Jetty 12.0.x") {
           steps {
-          container('jetty-build') {
             ws('jetty') {
               deleteDir()
               checkout([$class: 'GitSCM',
@@ -106,14 +103,12 @@ pipeline {
               }
             }
           }
-          }
         }
 
       }
     }
     stage("Checkout Build TCK Sources") {
       steps {
-      container('jetty-build') {
         ws('arquillian') {
           deleteDir()
           checkout([$class: 'GitSCM',
@@ -132,23 +127,20 @@ pipeline {
           }
         }
       }
-      }
     }
 
     stage("Run TCK") {
       steps {
-        container('jetty-build') {
-            timeout(time: 120, unit: 'MINUTES') {
-              withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                       "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                       "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
-                configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                  sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
-                  // -Dmaven.test.failure.ignore=true
-                  //junit testResults: '**/surefire-reports/TEST-**.xml'
-                }
-              }
+        timeout(time: 120, unit: 'MINUTES') {
+          withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                   "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
+            configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+              // -Dmaven.test.failure.ignore=true
+              //junit testResults: '**/surefire-reports/TEST-**.xml'
             }
+          }
         }
       }
       post {
