@@ -40,21 +40,19 @@ pipeline {
       parallel {
         stage("Checkout Build Arquillian Jetty") {
           steps {
-            container('jetty-build') {
-              ws('arquillian') {
-                deleteDir()
-                checkout([$class: 'GitSCM',
-                          branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
-                          extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                          userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
-                //git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
-                timeout(time: 30, unit: 'MINUTES') {
-                  withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                           "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                           "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-                    configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                      sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
-                    }
+            ws('arquillian') {
+              deleteDir()
+              checkout([$class: 'GitSCM',
+                        branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
+                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                        userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
+              //git url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty', branch: '${ARQUILLIAN_JETTY_BRANCH}'
+              timeout(time: 30, unit: 'MINUTES') {
+                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
                   }
                 }
               }
@@ -81,26 +79,24 @@ pipeline {
 
         stage("Checkout Build Jetty 11.0.x") {
           steps {
-            container('jetty-build') {
-              ws('jetty') {
-                deleteDir()
-                checkout([$class: 'GitSCM',
-                          branches: [[name: "*/$JETTY_BRANCH"]],
-                          extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true, reference: "/home/jenkins/jetty.project.git"]],
-                          userRemoteConfigs: [[url: 'https://github.com/eclipse/jetty.project.git']]])
-                timeout(time: 30, unit: 'MINUTES') {
-                  withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                           "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                           "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-                    configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                      // no need to run jetty now just get last snapshots
-                      //sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
-                      script {
-                        if (JETTY_VERSION == "SNAPSHOT") {
-                          def model = readMavenPom file: 'pom.xml'
-                          JETTY_VERSION = model.getVersion()
-                          //jetty_version = model.getVersion()
-                        }
+            ws('jetty') {
+              deleteDir()
+              checkout([$class: 'GitSCM',
+                        branches: [[name: "*/$JETTY_BRANCH"]],
+                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true, reference: "/home/jenkins/jetty.project.git"]],
+                        userRemoteConfigs: [[url: 'https://github.com/eclipse/jetty.project.git']]])
+              timeout(time: 30, unit: 'MINUTES') {
+                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                    // no need to run jetty now just get last snapshots
+                    //sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
+                    script {
+                      if (JETTY_VERSION == "SNAPSHOT") {
+                        def model = readMavenPom file: 'pom.xml'
+                        JETTY_VERSION = model.getVersion()
+                        //jetty_version = model.getVersion()
                       }
                     }
                   }
@@ -114,22 +110,20 @@ pipeline {
     }
     stage("Checkout Build TCK Sources") {
       steps {
-        container('jetty-build') {
-          ws('arquillian') {
-            deleteDir()
-            checkout([$class: 'GitSCM',
-                      branches: [[name: "*/$TCK_BRANCH"]],
-                      extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                      userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/']]])
-            //git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
-            timeout(time: 30, unit: 'MINUTES') {
-              withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                       "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                       "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-                configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                  sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
-                  sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e"
-                }
+        ws('arquillian') {
+          deleteDir()
+          checkout([$class: 'GitSCM',
+                    branches: [[name: "*/$TCK_BRANCH"]],
+                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/']]])
+          //git url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck/', branch: '${TCK_BRANCH}'
+          timeout(time: 30, unit: 'MINUTES') {
+            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
+                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e"
               }
             }
           }
@@ -139,16 +133,14 @@ pipeline {
 
     stage("Run TCK") {
       steps {
-        container('jetty-build') {
-          timeout(time: 120, unit: 'MINUTES') {
-            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-                     "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
-              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
-                // -Dmaven.test.failure.ignore=true
-                //junit testResults: '**/surefire-reports/TEST-**.xml'
-              }
+        timeout(time: 120, unit: 'MINUTES') {
+          withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                   "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
+            configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+              sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
+              // -Dmaven.test.failure.ignore=true
+              //junit testResults: '**/surefire-reports/TEST-**.xml'
             }
           }
         }
