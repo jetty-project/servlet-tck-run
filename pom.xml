@@ -114,12 +114,6 @@
       <artifactId>jetty-ee10-glassfish-jstl</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- needed for intellij -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>jakartatck</groupId>
       <artifactId>libutil</artifactId>
@@ -231,28 +225,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${surefire.version}</version>
-          <dependencies>
-<!--            <dependency>-->
-<!--              <groupId>org.junit.jupiter</groupId>-->
-<!--              <artifactId>junit-jupiter-engine</artifactId>-->
-<!--              <version>${junit.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--              <groupId>org.apache.maven.surefire</groupId>-->
-<!--              <artifactId>surefire-junit-platform</artifactId>-->
-<!--              <version>${surefire.version}</version>-->
-<!--            </dependency>-->
-            <dependency>
-              <groupId>org.junit.platform</groupId>
-              <artifactId>junit-platform-launcher</artifactId>
-              <version>1.9.1</version>
-            </dependency>
-            <dependency>
-              <groupId>jakartatck</groupId>
-              <artifactId>junit5-extensions</artifactId>
-              <version>${jakarta.tck.version}</version>
-            </dependency>
-          </dependencies>
           <configuration>
             <!-- this need some times to run -->
             <argLine>${fork.argLine} -Duser.language=en -Duser.country=US -Djava.locale.providers=COMPAT,CLDR
@@ -261,13 +233,6 @@
               -Djavax.net.ssl.keyStorePassword=changeit
               -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
-            <includeJUnit5Engines>
-              <includeJUnit5Engine>jakarta-tck-test-engine</includeJUnit5Engine>
-            </includeJUnit5Engines>
-            <excludeJUnit5Engines>
-              <excludeJUnit5Engine>junit-vintage</excludeJUnit5Engine>
-              <excludeJUnit5Engine>junit-jupiter</excludeJUnit5Engine>
-            </excludeJUnit5Engines>
             <dependenciesToScan>
               <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
             </dependenciesToScan>
@@ -275,9 +240,8 @@
               <http2.timeout>${http2.timeout}</http2.timeout>
             </systemProperties>
             <includes>
-<!--              <include>**/URLClient*</include>-->
-<!--              <include>**/Client*</include>-->
-<!--              <include>**/jakarta_servlet/scinitializer/addfilter1/URLClient*</include>-->
+              <include>**/URLClient*</include>
+              <include>**/Client*</include>
             </includes>
             <trimStackTrace>false</trimStackTrace>
           </configuration>
@@ -289,30 +253,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-<!--    <plugins>-->
-<!--      <plugin>-->
-<!--        <groupId>de.sormuras.junit</groupId>-->
-<!--        <artifactId>junit-platform-maven-plugin</artifactId>-->
-<!--        <version>1.1.6</version>-->
-<!--        <extensions>true</extensions>-->
-<!--        <configuration>-->
-<!--&lt;!&ndash;          <executor>JAVA</executor>&ndash;&gt;-->
-<!--          <isolation>NONE</isolation>-->
-<!--        </configuration>-->
-<!--        <dependencies>-->
-<!--          <dependency>-->
-<!--            <groupId>jakartatck</groupId>-->
-<!--            <artifactId>junit5-extensions</artifactId>-->
-<!--            <version>${jakarta.tck.version}</version>-->
-<!--          </dependency>-->
-<!--          <dependency>-->
-<!--            <groupId>jakartatck</groupId>-->
-<!--            <artifactId>servlet</artifactId>-->
-<!--            <version>${jakarta.tck.version}</version>-->
-<!--          </dependency>-->
-<!--        </dependencies>-->
-<!--      </plugin>-->
-<!--    </plugins>-->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
