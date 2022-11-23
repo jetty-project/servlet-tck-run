@@ -121,7 +121,7 @@ pipeline {
                      "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
               configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                 sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
-                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e"
+                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U -pl :servlet -am clean install -DskipTests -e"
               }
             }
           }
@@ -137,15 +137,13 @@ pipeline {
                    "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
             configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
               sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
-              // -Dmaven.test.failure.ignore=true
-              //junit testResults: '**/surefire-reports/TEST-**.xml'
             }
           }
         }
       }
       post {
         always {
-          junit testResults: '**/tck-tests-reports/TEST-**.xml'
+          junit testResults: '**/surefire-reports/TEST-**.xml'
         }
       }
     }

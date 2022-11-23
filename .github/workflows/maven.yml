@@ -63,7 +63,7 @@ jobs:
         run: mvn  -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar
 
       - name: Build Servlet TCK with Maven
-        run: mvn -V -B -U -pl :servlet,:junit5-extensions -am clean install -DskipTests -e  -B
+        run: mvn -V -B -U -pl :servlet -am clean install -DskipTests -e  -B
 
       - name: Checkout TCK Run
         uses: actions/checkout@v3
