@@ -58,24 +58,6 @@ pipeline {
             }
           }
         }
-//        stage("Checkout Build Maven Surefire") {
-//          steps {
-//            ws('surefire') {
-//              sh "rm -rf *"
-//              git url: 'https://github.com/apache/maven-surefire.git', branch: 'master'
-//              timeout(time: 30, unit: 'MINUTES') {
-//                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-//                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
-//                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-//                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-//                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -Drat.skip=true -V -B -U clean install -DskipTests -T2 -e -Denforcer.skip=true -Dcheckstyle.skip=true"
-//                  }
-//                }
-//              }
-//            }
-//          }
-//        }
-
         stage("Checkout Build Jetty 12.0.x") {
           steps {
             ws('jetty') {
@@ -84,18 +66,16 @@ pipeline {
                         branches: [[name: "*/$JETTY_BRANCH"]],
                         extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true, reference: "/home/jenkins/jetty.project.git"]],
                         userRemoteConfigs: [[url: 'https://github.com/eclipse/jetty.project.git']]])
-              timeout(time: 30, unit: 'MINUTES') {
+              timeout(time: 45, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    // no need to run jetty now just get last snapshots
-                    //sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T4 -e -Pfast"
+                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -Pfast"
                     script {
                       if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
                         JETTY_VERSION = model.getVersion()
-                        //jetty_version = model.getVersion()
                       }
                     }
                   }
@@ -131,7 +111,7 @@ pipeline {
 
     stage("Run TCK") {
       steps {
-        timeout(time: 120, unit: 'MINUTES') {
+        timeout(time: 90, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                    "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
