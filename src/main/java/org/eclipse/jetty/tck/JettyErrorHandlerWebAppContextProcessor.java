@@ -13,11 +13,6 @@ public class JettyErrorHandlerWebAppContextProcessor implements WebAppContextPro
 
     @Override
     public void process(WebAppContext webAppContext, Archive<?> archive) {
-        if ("servlet_spec_errorpage_web.war".equals(archive.getName())) {
-            ErrorPageErrorHandler errorPageErrorHandler = new ErrorPageErrorHandler();
-            errorPageErrorHandler.setUnwrapServletException(true);
-            webAppContext.setErrorHandler(errorPageErrorHandler);
-        }
         if ("servlet_spec_fragment_web.war".equals(archive.getName())) {
             URL url = Thread.currentThread().getContextClassLoader()
                     .getResource("servlet_spec_fragment_web/webdefault.xml");
