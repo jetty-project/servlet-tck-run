@@ -34,7 +34,7 @@ pipeline {
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
   }
 
-  //stages {
+  stages {
 
     //stage('Build External') {
       //parallel {
@@ -128,4 +128,4 @@ pipeline {
       }
     }
   }
-//}
+}
