@@ -37,7 +37,7 @@ pipeline {
   //stages {
 
     //stage('Build External') {
-      parallel {
+      //parallel {
         stage("Checkout Build Jetty 12.0.x") {
           steps {
             ws('jetty') {

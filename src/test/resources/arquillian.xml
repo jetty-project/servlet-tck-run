@@ -13,9 +13,11 @@
       <configuration>
         <property name="bindHttpPort">0</property>
 <!--        <property name="requestCookieCompliance">RFC2965</property>-->
-        <property name="requestCookieCompliance">RFC6265</property>
+<!--        <property name="requestCookieCompliance">RFC6265</property>-->
+        <property name="requestCookieCompliance">RFC6265,ATTRIBUTE_VALUES</property>
 <!--        <property name="responseCookieCompliance">RFC2965</property>-->
-        <property name="responseCookieCompliance">RFC6265</property>
+<!--        <property name="responseCookieCompliance">RFC6265</property>-->
+        <property name="responseCookieCompliance">RFC6265,ATTRIBUTE_VALUES</property>
         <property name="realmProperties">src/test/resources/default.properties</property>
         <property name="useArchiveNameAsContext">true</property>
         <property name="inferredEncodings">
