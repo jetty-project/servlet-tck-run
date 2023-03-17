@@ -12,7 +12,7 @@ pipeline {
     string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
 
-    string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
+    string( defaultValue: 'master', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
             name: 'JETTY_BRANCH' )
 
     string( defaultValue: 'jetty-12-beta-1', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
@@ -24,7 +24,7 @@ pipeline {
     choice(
             description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
-            choices: ['olamy','arquillian'] )
+            choices: ['arquillian','olamy'] )
 
     choice(
             description: 'TCK Github org',
