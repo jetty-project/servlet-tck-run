@@ -158,13 +158,13 @@
     </dependency>
 
     <!-- just make Intellij/jpms happy when having all the projects together -->
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-slf4j-impl</artifactId>
-      <version>${jetty.version}</version>
-      <scope>compile</scope>
-      <optional>true</optional>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-slf4j-impl</artifactId>-->
+<!--      <version>${jetty.version}</version>-->
+<!--      <scope>compile</scope>-->
+<!--      <optional>true</optional>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-jmx</artifactId>
