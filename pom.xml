@@ -24,6 +24,14 @@
     <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
     <http2.timeout></http2.timeout>
+
+
+    <junit.jupiter.execution.parallel.enabled>true</junit.jupiter.execution.parallel.enabled>
+    <junit.jupiter.execution.parallel.mode.default>same_thread</junit.jupiter.execution.parallel.mode.default>
+    <junit.jupiter.execution.parallel.mode.classes.default>concurrent</junit.jupiter.execution.parallel.mode.classes.default>
+    <junit.jupiter.execution.parallel.config.strategy>fixed</junit.jupiter.execution.parallel.config.strategy>
+    <junit.jupiter.execution.parallel.config.fixed.parallelism>3</junit.jupiter.execution.parallel.config.fixed.parallelism>
+    <junit.jupiter.extensions.autodetection.enabled>false</junit.jupiter.extensions.autodetection.enabled>
   </properties>
 
   <dependencyManagement>
@@ -248,6 +256,16 @@
               <exclude>**/BaseUrlClient</exclude>
             </excludes>
             <trimStackTrace>false</trimStackTrace>
+            <properties>
+              <configurationParameters>
+                junit.jupiter.execution.parallel.enabled=${junit.jupiter.execution.parallel.enabled}
+                junit.jupiter.execution.parallel.mode.default=${junit.jupiter.execution.parallel.mode.default}
+                junit.jupiter.execution.parallel.mode.classes.default=${junit.jupiter.execution.parallel.mode.classes.default}
+                junit.jupiter.execution.parallel.config.strategy=${junit.jupiter.execution.parallel.config.strategy}
+                junit.jupiter.execution.parallel.config.fixed.parallelism=${junit.jupiter.execution.parallel.config.fixed.parallelism}
+                junit.jupiter.extensions.autodetection.enabled=${junit.jupiter.extensions.autodetection.enabled}
+              </configurationParameters>
+            </properties>
           </configuration>
         </plugin>
         <plugin>
