@@ -71,3 +71,11 @@ jobs:
       - name: Build TCK Run with Maven
         run: mvn -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
 
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Maven Tests
+          path: '**/target/surefire-reports/TEST-**.xml'
+          reporter: java-junit
+          fail-on-error: false
+
