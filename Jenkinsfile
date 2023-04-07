@@ -3,7 +3,7 @@
 pipeline {
   agent { node { label 'linux' } }
   triggers {
-    upstream(upstreamProjects: 'tck//tck-olamy-github-tck-run-module-glassfish/') //, threshold: hudson.model.Result.SUCCESS)
+    upstream(upstreamProjects: 'tck/tck-olamy-github-tck-run-module-glassfish') //, threshold: hudson.model.Result.SUCCESS)
   }
   options {
     buildDiscarder logRotator( numToKeepStr: '50' )
