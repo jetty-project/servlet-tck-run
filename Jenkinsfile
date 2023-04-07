@@ -52,7 +52,7 @@ pipeline {
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -Pfast"
+                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -Pfast"
                     script {
                       if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
@@ -79,7 +79,7 @@ pipeline {
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    sh "mvn --no-transfer-progress -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
+                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
                   }
                 }
               }
