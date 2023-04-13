@@ -3,16 +3,16 @@
 pipeline {
   agent { node { label 'linux' } }
   options {
-    buildDiscarder logRotator( numToKeepStr: '50' )
+    buildDiscarder logRotator( numToKeepStr: '30' )
   }
   parameters {
-    string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
+    string( defaultValue: 'tckrefactor', description: 'GIT branch name to build TCK (master/tckrefactor)',
             name: 'TCK_BRANCH' )
 
     choice(
             description: 'TCK Github org',
             name: 'GITHUB_ORG_TCK',
-            choices: ['olamy','eclipse-ee4j']
+            choices: ['jakartaee','olamy']
     )
     string( defaultValue: 'jdk11', description: 'JDK to use', name: 'JDKBUILD' )
 
@@ -27,7 +27,7 @@ pipeline {
           checkout([$class: 'GitSCM',
                     branches: [[name: "*/$TCK_BRANCH"]],
                     extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck']]])
+                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/platform-tck']]])
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
