@@ -9,7 +9,7 @@ pipeline {
     buildDiscarder logRotator( numToKeepStr: '50' )
   }
   parameters {
-    string( defaultValue: 'servlet-module-atleast', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
+    string( defaultValue: 'tckrefactor', description: 'GIT branch name to build TCK (master/servlet-module-atleast)',
             name: 'TCK_BRANCH' )
 
     string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
@@ -29,7 +29,7 @@ pipeline {
     choice(
             description: 'TCK Github org',
             name: 'GITHUB_ORG_TCK',
-            choices: ['olamy','eclipse-ee4j']
+            choices: ['jakartaee','olamy']
     )
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
   }
@@ -97,7 +97,7 @@ pipeline {
           checkout([$class: 'GitSCM',
                     branches: [[name: "*/$TCK_BRANCH"]],
                     extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/jakartaee-tck']]])
+                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/platform-tck']]])
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
