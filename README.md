@@ -15,9 +15,9 @@ gh action of this project
 
 This will build only the servlet TCK module
 ```shell
-git clone https://github.com/olamy/jakartaee-tck.git
-cd jakartaee-tck
-git switch servlet-module-atleast
+git clone https://github.com/jakartaee/platform-tck.git
+cd platform-tck
+git switch tckrefactor
 clean install -pl :servlet -am
 ```
 
