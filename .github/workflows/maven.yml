@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'olamy/jakartaee-tck'
-          ref: 'servlet-module-atleast'
+          ref: 'tckrefactor'
 
       - name: Install legacy javatest jar
         run: mvn  -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar
