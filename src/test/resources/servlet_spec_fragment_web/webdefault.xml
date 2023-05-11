@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app 
-   xmlns="https://jakarta.ee/xml/ns/jakartaee"
+   xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+   xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
    metadata-complete="false"
-   version="6.0">
+   version="3.1"> 
 
   <!-- ===================================================================== -->
   <!-- This file contains the default descriptor for web applications.       -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <!-- The intent of this descriptor is to include jetty specific or common  -->
-  <!-- configuration for all webapps.   If a context has a webdefault-ee10.xml    -->
+  <!-- configuration for all webapps.   If a context has a webdefault-ee9.xml    -->
   <!-- descriptor, it is applied before the context's own web.xml file       -->
   <!--                                                                       -->
   <!-- A context may be assigned a default descriptor by calling             -->
@@ -28,13 +28,13 @@
     Default web.xml file.  
     This file is applied to a Web application before its own WEB_INF/web.xml file
   </description>
-  
+
   <!-- ==================================================================== -->
   <!-- Removes static cache of Methods from java.beans.Introspector to      -->
   <!-- ensure webapp classloader can be released on undeploy                -->
   <!-- ==================================================================== -->  
   <listener>
-   <listener-class>org.eclipse.jetty.ee10.servlet.listener.IntrospectorCleaner</listener-class>
+   <listener-class>org.eclipse.jetty.ee9.servlet.listener.IntrospectorCleaner</listener-class>
   </listener>
   
 
@@ -44,15 +44,15 @@
   <!--
     UNCOMMENT TO ACTIVATE 
     <context-param> 
-      <param-name>org.eclipse.jetty.servlet.SessionDomain</param-name> 
+      <param-name>org.eclipse.jetty.ee9.servlet.SessionDomain</param-name>
       <param-value>127.0.0.1</param-value> 
     </context-param> 
     <context-param>
-      <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>
+      <param-name>org.eclipse.jetty.ee9.servlet.SessionPath</param-name>
       <param-value>/</param-value>
     </context-param>
     <context-param>
-      <param-name>org.eclipse.jetty.servlet.MaxAge</param-name>
+      <param-name>org.eclipse.jetty.ee9.servlet.MaxAge</param-name>
       <param-value>-1</param-value>
     </context-param>
   -->
@@ -134,7 +134,7 @@
  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet>
     <servlet-name>default</servlet-name>
-    <servlet-class>org.eclipse.jetty.ee10.servlet.DefaultServlet</servlet-class>
+    <servlet-class>org.eclipse.jetty.ee9.servlet.DefaultServlet</servlet-class>
     <init-param>
       <param-name>acceptRanges</param-name>
       <param-value>true</param-value>
@@ -192,7 +192,7 @@
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet id="jsp">
     <servlet-name>jsp</servlet-name>
-    <servlet-class>org.eclipse.jetty.ee10.jsp.JettyJspServlet</servlet-class>
+    <servlet-class>org.eclipse.jetty.ee9.jsp.JettyJspServlet</servlet-class>
     <init-param>
       <param-name>xpoweredBy</param-name>
       <param-value>false</param-value>
