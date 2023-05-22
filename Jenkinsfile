@@ -2,6 +2,9 @@
 
 pipeline {
   agent { node { label 'linux' } }
+  tools { 
+    maven 'maven3' 
+  }  
   triggers {
     upstream(upstreamProjects: 'tck/tck-olamy-github-tck-run-module-glassfish') //, threshold: hudson.model.Result.SUCCESS)
   }
@@ -49,7 +52,7 @@ pipeline {
                         userRemoteConfigs: [[url: 'https://github.com/eclipse/jetty.project.git']]])
               timeout(time: 45, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                     sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -Pfast"
@@ -76,7 +79,7 @@ pipeline {
                         userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
               timeout(time: 30, unit: 'MINUTES') {
                 withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                     sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
@@ -100,7 +103,7 @@ pipeline {
                     userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/platform-tck']]])
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                     "PATH+MAVEN=${env.JAVA_HOME}/bin",
                      "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
               configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
                 sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
@@ -116,7 +119,7 @@ pipeline {
       steps {
         timeout(time: 90, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                   "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool "maven3"}/bin",
+                   "PATH+MAVEN=${env.JAVA_HOME}/bin",
                    "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
             configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
               sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION"
