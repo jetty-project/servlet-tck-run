@@ -39,11 +39,11 @@ jobs:
 
     steps:
 
-      - name: Checkout Arquillian
-        uses: actions/checkout@v3
-        with:
-          repository: 'arquillian/arquillian-container-jetty'
-          ref: 'master'
+#      - name: Checkout Arquillian
+#        uses: actions/checkout@v3
+#        with:
+#          repository: 'arquillian/arquillian-container-jetty'
+#          ref: 'master'
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -52,8 +52,8 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Arquillian with Maven
-        run: mvn install -B -U
+#      - name: Build Arquillian with Maven
+#        run: mvn install -B -U
 
       - name: Checkout Servlet TCK
         uses: actions/checkout@v3
