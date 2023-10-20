@@ -68,14 +68,22 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Set up Maven
+        run:
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.5
+
       - name: Build Servlet TCK with Maven
-        run: mvn -V -B -U clean install -DskipTests -e  -B -U
+        run: ./mvnw -V -B -U clean install -DskipTests -e  -B -U
 
       - name: Checkout TCK Run
         uses: actions/checkout@v3
 
+      - name: Set up Maven
+        run:
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.5
+
       - name: Build TCK Run with Maven
-        run: mvn -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
+        run: ./mvnw -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
 
       - name: Publish Test Report
         uses: dorny/test-reporter@v1
