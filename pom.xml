@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.eclipse.jetty.tck</groupId>
@@ -16,14 +16,22 @@
     <maven.compiler.release>11</maven.compiler.release>
     <junit.version>5.10.0</junit.version>
     <slf4j.version>2.0.7</slf4j.version>
-    <arquillian.core.version>1.7.0.Alpha14</arquillian.core.version> <!-- 1.7.0.Final-SNAPSHOT -->
     <arquillian.jetty.version>2.0.0.Final</arquillian.jetty.version>
     <arquillian.jetty.artifactId>arquillian-jetty-embedded-12-ee9</arquillian.jetty.artifactId>
-    <jetty.version>12.0.0</jetty.version> <!-- 11.0.9-SNAPSHOT -->
-    <surefire.version>3.1.0</surefire.version> <!-- 3.0.0-M7-SNAPSHOT -->
-    <jakarta.tck.version>10.0.0-SNAPSHOT</jakarta.tck.version>
+    <jetty.version>12.0.2-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
+    <surefire.version>3.0.0</surefire.version> <!-- 3.0.0-M7-SNAPSHOT -->
+    <jakarta.tck.version>6.1.0-SNAPSHOT</jakarta.tck.version>
+    <servlet.api.version>6.0.0</servlet.api.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
     <http2.timeout></http2.timeout>
+
+
+    <junit.jupiter.execution.parallel.enabled>false</junit.jupiter.execution.parallel.enabled>
+    <junit.jupiter.execution.parallel.mode.default>same_thread</junit.jupiter.execution.parallel.mode.default>
+    <junit.jupiter.execution.parallel.mode.classes.default>concurrent</junit.jupiter.execution.parallel.mode.classes.default>
+    <junit.jupiter.execution.parallel.config.strategy>fixed</junit.jupiter.execution.parallel.config.strategy>
+    <junit.jupiter.execution.parallel.config.fixed.parallelism>2</junit.jupiter.execution.parallel.config.fixed.parallelism>
+    <junit.jupiter.extensions.autodetection.enabled>false</junit.jupiter.extensions.autodetection.enabled>
   </properties>
 
   <dependencyManagement>
@@ -49,13 +57,34 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.jboss.arquillian</groupId>
+        <artifactId>arquillian-bom</artifactId>
+        <version>1.7.1.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap</groupId>
+        <artifactId>shrinkwrap-bom</artifactId>
+        <version>1.2.6</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.shrinkwrap.resolver</groupId>
+        <artifactId>shrinkwrap-resolver-bom</artifactId>
+        <version>3.2.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
     <dependency>
-      <groupId>jakartatck</groupId>
-      <artifactId>servlet</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>tck-runtime</artifactId>
       <version>${jakarta.tck.version}</version>
       <exclusions>
         <exclusion>
@@ -68,6 +97,16 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>${servlet.api.version}</version>
+    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>jakarta.servlet</groupId>-->
+    <!--      <artifactId>tck-util</artifactId>-->
+    <!--      <version>${jakarta.tck.version}</version>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.jboss.arquillian.container</groupId>
       <artifactId>${arquillian.jetty.artifactId}</artifactId>
@@ -115,17 +154,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>jakartatck</groupId>
-      <artifactId>libutil</artifactId>
-      <version>${jakarta.tck.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.glassfish.metro</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
@@ -148,58 +176,57 @@
     <dependency>
       <groupId>org.jboss.arquillian.container</groupId>
       <artifactId>arquillian-container-test-spi</artifactId>
-      <version>${arquillian.core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.arquillian.junit5</groupId>
       <artifactId>arquillian-junit5-container</artifactId>
-      <version>${arquillian.core.version}</version>
       <scope>test</scope>
     </dependency>
 
     <!-- just make Intellij/jpms happy when having all the projects together -->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-slf4j-impl</artifactId>-->
-<!--      <version>${jetty.version}</version>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-jmx</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-util-ajax</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-client</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-webapp</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-xml</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty</groupId>-->
-<!--      <artifactId>jetty-util</artifactId>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.eclipse.jetty.tests</groupId>-->
-<!--      <artifactId>jetty-http-tools</artifactId>-->
-<!--      <version>${jetty.version}</version>-->
-<!--      <scope>compile</scope>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-slf4j-impl</artifactId>
+      <version>${jetty.version}</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-jmx</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util-ajax</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-client</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <!--    <dependency>-->
+    <!--      <groupId>org.eclipse.jetty</groupId>-->
+    <!--      <artifactId>jetty-webapp</artifactId>-->
+    <!--      <scope>compile</scope>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.eclipse.jetty</groupId>-->
+    <!--      <artifactId>jetty-xml</artifactId>-->
+    <!--      <scope>compile</scope>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>org.eclipse.jetty</groupId>-->
+    <!--      <artifactId>jetty-util</artifactId>-->
+    <!--      <scope>compile</scope>-->
+    <!--    </dependency>-->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http-tools</artifactId>
+      <version>${jetty.version}</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -234,16 +261,29 @@
               -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <dependenciesToScan>
-              <dependenciesToScan>jakartatck:servlet</dependenciesToScan>
+              <dependenciesToScan>jakarta.servlet:tck-runtime</dependenciesToScan>
             </dependenciesToScan>
             <systemProperties>
               <http2.timeout>${http2.timeout}</http2.timeout>
             </systemProperties>
-            <includes>
-              <include>**/URLClient*</include>
-              <include>**/Client*</include>
-            </includes>
+            <!--            <includes>-->
+            <!--              <include>**/URLClient*</include>-->
+            <!--              <include>**/Client*</include>-->
+            <!--            </includes>-->
+            <!--            <excludes>-->
+            <!--              <exclude>**/BaseUrlClient</exclude>-->
+            <!--            </excludes>-->
             <trimStackTrace>false</trimStackTrace>
+            <properties>
+              <configurationParameters>
+                junit.jupiter.execution.parallel.enabled=${junit.jupiter.execution.parallel.enabled}
+                junit.jupiter.execution.parallel.mode.default=${junit.jupiter.execution.parallel.mode.default}
+                junit.jupiter.execution.parallel.mode.classes.default=${junit.jupiter.execution.parallel.mode.classes.default}
+                junit.jupiter.execution.parallel.config.strategy=${junit.jupiter.execution.parallel.config.strategy}
+                junit.jupiter.execution.parallel.config.fixed.parallelism=${junit.jupiter.execution.parallel.config.fixed.parallelism}
+                junit.jupiter.extensions.autodetection.enabled=${junit.jupiter.extensions.autodetection.enabled}
+              </configurationParameters>
+            </properties>
           </configuration>
         </plugin>
         <plugin>
@@ -268,8 +308,8 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>jakartatck</groupId>
-                  <artifactId>libutil</artifactId>
+                  <groupId>jakarta.servlet</groupId>
+                  <artifactId>tck-runtime</artifactId>
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.testOutputDirectory}/</outputDirectory>

@@ -1,17 +1,19 @@
 package org.eclipse.jetty.tck;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
+import servlet.tck.api.jakarta_servlet.servletrequest.ServletRequestTests;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest extends com.sun.ts.tests.servlet.spec.security.secform.Client // com.sun.ts.tests.servlet.api.jakarta_servlet_http.httpsessionx.URLClient
+@Disabled
+public class AppTest extends ServletRequestTests
 {
 
     @Test
     public void foo() throws Exception {
-        super.test1();
+        super.setCharacterEncodingTest1();
     }
 
 }

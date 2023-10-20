@@ -23,6 +23,8 @@ permissions:
   security-events: read
   contents: write
   actions: read
+  id-token: write
+  checks: write
 
 jobs:
   build:
@@ -37,27 +39,27 @@ jobs:
 
     steps:
 
-#      - name: Checkout Arquillian
-#        uses: actions/checkout@v3
-#        with:
-#          repository: 'arquillian/arquillian-container-jetty'
-#          ref: 'master'
-#
-#      - name: Set up JDK
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: 17
-#          distribution: 'temurin'
-#          cache: 'maven'
-#
-#      - name: Build Arquillian with Maven
-#        run: mvn install -B -U
+      #      - name: Checkout Arquillian
+      #        uses: actions/checkout@v3
+      #        with:
+      #          repository: 'arquillian/arquillian-container-jetty'
+      #          ref: 'master'
+
+      #      - name: Set up JDK
+      #        uses: actions/setup-java@v3
+      #        with:
+      #          java-version: 17
+      #          distribution: 'temurin'
+      #          cache: 'maven'
+
+      #      - name: Build Arquillian with Maven
+      #        run: mvn install -B -U
 
       - name: Checkout Servlet TCK
         uses: actions/checkout@v3
         with:
-          repository: 'olamy/jakartaee-tck'
-          ref: 'tckrefactor'
+          repository: 'jakartaee/servlet'
+          ref: 'master'
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -66,15 +68,27 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Install legacy javatest jar
-        run: mvn  -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar
+      - name: Set up Maven
+        run:
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.5
 
       - name: Build Servlet TCK with Maven
-        run: mvn -V -B -U -pl :servlet -am clean install -DskipTests -e  -B -U
+        run: ./mvnw -V -B -U clean install -DskipTests -e  -B -U
 
       - name: Checkout TCK Run
         uses: actions/checkout@v3
 
-      - name: Build TCK Run with Maven
-        run: mvn -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
+      - name: Set up Maven
+        run:
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.5
 
+      - name: Build TCK Run with Maven
+        run: ./mvnw -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=true
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Tests Report
+          path: '**/target/surefire-reports/TEST-**.xml'
+          reporter: java-junit
+          fail-on-error: false
