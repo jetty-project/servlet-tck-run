@@ -40,7 +40,7 @@ jobs:
     steps:
 
       #      - name: Checkout Arquillian
-      #        uses: actions/checkout@v3
+      #        uses: actions/checkout@v4
       #        with:
       #          repository: 'arquillian/arquillian-container-jetty'
       #          ref: 'master'
@@ -56,7 +56,7 @@ jobs:
       #        run: mvn install -B -U
 
       - name: Checkout Servlet TCK
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'jakartaee/servlet'
           ref: 'master'
@@ -76,7 +76,7 @@ jobs:
         run: ./mvnw -V -B -U clean install -DskipTests -e  -B -U
 
       - name: Checkout TCK Run
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Maven
         run:
