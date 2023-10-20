@@ -15,13 +15,14 @@ gh action of this project
 
 This will build only the servlet TCK module
 ```shell
-git clone https://github.com/jakartaee/platform-tck.git
-cd platform-tck
-git switch tckrefactor
-clean install -pl :servlet -am
+git clone https://github.com/jakartaee/servlet.git
+cd servlet
+mvn clean install
 ```
 
 #### Arquillian Jetty 11.0.x/12.0.x support 
+
+NOT NEEDED ANYMORE
 
 ```shell
 git clone https://github.com/arquillian/arquillian-container-jetty
