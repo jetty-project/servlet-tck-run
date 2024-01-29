@@ -27,7 +27,7 @@ pipeline {
 
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
-            choices: ['arquillian','olamy'] )
+            choices: ['olamy','arquillian'] )
 
     string( defaultValue: 'dynamic-httpconfiguration-properties', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
