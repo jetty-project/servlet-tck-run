@@ -39,21 +39,25 @@ jobs:
 
     steps:
 
-      #      - name: Checkout Arquillian
-      #        uses: actions/checkout@v4
-      #        with:
-      #          repository: 'arquillian/arquillian-container-jetty'
-      #          ref: 'master'
+      - name: Checkout Arquillian
+        uses: actions/checkout@v4
+        with:
+          repository: 'arquillian/arquillian-container-jetty'
+          ref: 'master'
 
-      #      - name: Set up JDK
-      #        uses: actions/setup-java@v4
-      #        with:
-      #          java-version: 17
-      #          distribution: 'temurin'
-      #          cache: 'maven'
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
 
-      #      - name: Build Arquillian with Maven
-      #        run: mvn install -B -U
+      - name: Set up Maven
+        run:
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.5
+
+      - name: Build Arquillian with Maven
+        run: ./mvnw install -B -U
 
       - name: Checkout Servlet TCK
         uses: actions/checkout@v4

@@ -25,6 +25,9 @@
           text/html iso-8859-1
         </property>
         <property name="h2cEnabled">true</property>
+        <property name="httpConfigurationProperties">
+          relativeRedirectAllowed false
+        </property>
       </configuration>
     </container>
 
@@ -49,6 +52,9 @@
         <property name="sniRequired">false</property>
         <property name="sniHostCheck">false</property>
         <property name="h2cEnabled">true</property>
+        <property name="httpConfigurationProperties">
+          relativeRedirectAllowed false
+        </property>
       </configuration>
     </container>
   </group>
