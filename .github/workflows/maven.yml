@@ -42,8 +42,8 @@ jobs:
       - name: Checkout Arquillian
         uses: actions/checkout@v4
         with:
-          repository: 'olamy/arquillian-container-jetty'
-          ref: 'dynamic-httpconfiguration-properties'
+          repository: 'arquillian/arquillian-container-jetty'
+          ref: 'master'
 
       - name: Set up JDK
         uses: actions/setup-java@v4
