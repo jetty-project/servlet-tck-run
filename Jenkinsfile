@@ -19,7 +19,7 @@ pipeline {
             name: 'GITHUB_ORG_TCK',
             choices: ['jakartaee','olamy'])
 
-    string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
+    string( defaultValue: 'jetty-12.0.x-cross-context-dispatch', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
             name: 'JETTY_BRANCH' )
 
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
@@ -29,7 +29,7 @@ pipeline {
             name: 'GITHUB_ORG_ARQUILLIAN',
             choices: ['arquillian','olamy'] )
 
-    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
+    string( defaultValue: 'jetty-12-cross-context', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
