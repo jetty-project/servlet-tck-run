@@ -40,8 +40,8 @@ pipeline {
 
   stages {
 
-    stage('Build External') {
-      parallel {
+    //stage('Build External') {
+      //parallel {
 
         stage("Checkout Build Jetty 12.0.x") {
           steps {
@@ -92,8 +92,8 @@ pipeline {
        }
 
 
-      }
-    }
+      //}
+    //}
     stage("Checkout Build TCK Sources") {
       steps {
         ws('tck') {
