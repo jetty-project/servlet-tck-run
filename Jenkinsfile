@@ -19,7 +19,7 @@ pipeline {
             name: 'GITHUB_ORG_TCK',
             choices: ['jakartaee','olamy'])
 
-    string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
+    string( defaultValue: 'jetty-12.1.x', description: 'GIT branch name to build Jetty (jetty-12.1.x)',
             name: 'JETTY_BRANCH' )
 
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
