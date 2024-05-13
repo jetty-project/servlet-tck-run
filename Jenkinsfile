@@ -43,7 +43,7 @@ pipeline {
     stage('Build External') {
       parallel {
 
-        stage("Checkout Build Jetty 12.0.x") {
+        stage("Checkout Build Jetty 12.1.x") {
           steps {
             ws('jetty') {
               deleteDir()
@@ -56,7 +56,7 @@ pipeline {
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -DskipTests -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=dav:http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server"
+                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -DskipTests -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=http://nginx-cache-service.jenkins.svc.cluster.local:80 -Daether.connector.http.supportWebDav=true -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server"
                     script {
                       if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
