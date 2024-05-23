@@ -83,8 +83,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>tck-runtime</artifactId>
+      <groupId>jakarta.tck</groupId>
+      <artifactId>servlet-tck-runtime</artifactId>
       <version>${jakarta.tck.version}</version>
       <exclusions>
         <exclusion>
