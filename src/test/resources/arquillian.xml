@@ -50,9 +50,10 @@
         <property name="sniHostCheck">false</property>
         <property name="h2cEnabled">true</property>
         <property name="relativeRedirectAllowed">false</property>
-        <property name="HttpConfiguration">
+        <property name="httpConfigurationProperties">
           relativeRedirectAllowed false
         </property>
+        <property name="crossContextDispatchSupported">true</property>
       </configuration>
     </container>
   </group>
