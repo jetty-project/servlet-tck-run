@@ -21,7 +21,7 @@
     <jetty.version>12.1.0-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
     <surefire.version>3.2.5</surefire.version>
     <jakarta.tck.version>6.1.0-SNAPSHOT</jakarta.tck.version>
-    <servlet.api.version>6.1.0-M2</servlet.api.version>
+    <servlet.api.version>6.1.0</servlet.api.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
     <http2.timeout></http2.timeout>
 
