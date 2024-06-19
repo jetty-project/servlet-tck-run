@@ -2,7 +2,7 @@
 <web-app 
    xmlns="https://jakarta.ee/xml/ns/jakartaee"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_1.xsd"
    metadata-complete="false"
    version="6.0">
 
@@ -10,7 +10,7 @@
   <!-- This file contains the default descriptor for web applications.       -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <!-- The intent of this descriptor is to include jetty specific or common  -->
-  <!-- configuration for all webapps.   If a context has a webdefault-ee10.xml    -->
+  <!-- configuration for all webapps.   If a context has a webdefault-ee11.xml    -->
   <!-- descriptor, it is applied before the context's own web.xml file       -->
   <!--                                                                       -->
   <!-- A context may be assigned a default descriptor by calling             -->
@@ -34,7 +34,7 @@
   <!-- ensure webapp classloader can be released on undeploy                -->
   <!-- ==================================================================== -->  
   <listener>
-   <listener-class>org.eclipse.jetty.ee10.servlet.listener.IntrospectorCleaner</listener-class>
+   <listener-class>org.eclipse.jetty.ee11.servlet.listener.IntrospectorCleaner</listener-class>
   </listener>
   
 
@@ -44,15 +44,15 @@
   <!--
     UNCOMMENT TO ACTIVATE 
     <context-param> 
-      <param-name>org.eclipse.jetty.servlet.SessionDomain</param-name> 
+      <param-name>org.eclipse.jetty.session.SessionDomain</param-name> 
       <param-value>127.0.0.1</param-value> 
     </context-param> 
     <context-param>
-      <param-name>org.eclipse.jetty.servlet.SessionPath</param-name>
+      <param-name>org.eclipse.jetty.session.SessionPath</param-name>
       <param-value>/</param-value>
     </context-param>
     <context-param>
-      <param-name>org.eclipse.jetty.servlet.MaxAge</param-name>
+      <param-name>org.eclipse.jetty.session.MaxAge</param-name>
       <param-value>-1</param-value>
     </context-param>
   -->
@@ -104,8 +104,6 @@
  *                    servlet context root. Useful for only serving static content out
  *                    of only specific subdirectories.
  *
- *  pathInfoOnly      If true, only the path info will be applied to the baseResource
- *
  *  stylesheet        Set with the location of an optional stylesheet that will be used
  *                    to decorate the directory listing html.
  *                    
@@ -134,7 +132,7 @@
  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet>
     <servlet-name>default</servlet-name>
-    <servlet-class>org.eclipse.jetty.ee10.servlet.DefaultServlet</servlet-class>
+    <servlet-class>org.eclipse.jetty.ee11.servlet.DefaultServlet</servlet-class>
     <init-param>
       <param-name>acceptRanges</param-name>
       <param-value>true</param-value>
@@ -145,7 +143,7 @@
     </init-param>
     <init-param>
       <param-name>welcomeServlets</param-name>
-      <param-value>exact</param-value>
+      <param-value>false</param-value>
     </init-param>
     <init-param>
       <param-name>redirectWelcome</param-name>
@@ -187,12 +185,12 @@
   <!-- The JSP page compiler and execution servlet, which is the mechanism  -->
   <!-- used by the jsp container to support JSP pages.  Traditionally,      -->
   <!-- this servlet is mapped to URL pattern "*.jsp".                       -->
-  <!-- See http://https://www.eclipse.org/jetty/documentation/              -->
+  <!-- See https://eclipse.dev/jetty/documentation/              -->
   <!-- for applicable configuration params.                                 -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet id="jsp">
     <servlet-name>jsp</servlet-name>
-    <servlet-class>org.eclipse.jetty.ee10.jsp.JettyJspServlet</servlet-class>
+    <servlet-class>org.eclipse.jetty.ee11.jsp.JettyJspServlet</servlet-class>
     <init-param>
       <param-name>xpoweredBy</param-name>
       <param-value>false</param-value>
