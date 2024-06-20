@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app 
-   xmlns="https://jakarta.ee/xml/ns/jakartaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_1.xsd"
-   metadata-complete="false"
-   version="6.0">
+<web-app
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_1.xsd"
+        metadata-complete="false"
+        version="6.1">
 
   <!-- ===================================================================== -->
   <!-- This file contains the default descriptor for web applications.       -->
@@ -25,29 +25,38 @@
   <!-- ===================================================================== -->
 
   <description>
-    Default web.xml file.  
+    Default web.xml file.
     This file is applied to a Web application before its own WEB_INF/web.xml file
   </description>
-  
+
   <!-- ==================================================================== -->
   <!-- Removes static cache of Methods from java.beans.Introspector to      -->
   <!-- ensure webapp classloader can be released on undeploy                -->
-  <!-- ==================================================================== -->  
+  <!-- ==================================================================== -->
   <listener>
    <listener-class>org.eclipse.jetty.ee11.servlet.listener.IntrospectorCleaner</listener-class>
   </listener>
-  
+
 
   <!-- ==================================================================== -->
   <!-- Context params to control Session Cookies                            -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <!--
+<<<<<<< HEAD
     UNCOMMENT TO ACTIVATE 
     <context-param> 
       <param-name>org.eclipse.jetty.session.SessionDomain</param-name> 
       <param-value>127.0.0.1</param-value> 
     </context-param> 
     <context-param>
+=======
+    UNCOMMENT TO ACTIVATE
+    <context-param>
+      <param-name>org.eclipse.jetty.session.SessionDomain</param-name>
+      <param-value>127.0.0.1</param-value>
+    </context-param>
+    <context-param>
+>>>>>>> 02fd8cb (fix webdefault)
       <param-name>org.eclipse.jetty.session.SessionPath</param-name>
       <param-value>/</param-value>
     </context-param>
@@ -62,7 +71,7 @@
   <!-- This servlet, normally mapped to /, provides the handling for static -->
   <!-- content, OPTIONS and TRACE methods for the context.                  -->
   <!-- The following initParameters are supported:                          -->
-  <!--  
+  <!--
  *  acceptRanges      If true, range requests and responses are
  *                    supported
  *
@@ -84,9 +93,9 @@
  *
  *  gzip              If set to true, then static content will be served as
  *                    gzip content encoded if a matching resource is
- *                    found ending with ".gz" (default false) 
+ *                    found ending with ".gz" (default false)
  *                    (deprecated: use precompressed)
- *                    
+ *
  *  precompressed     If set to a comma separated list of encoding types (that may be
  *                    listed in a requests Accept-Encoding header) to file
  *                    extension mappings to look for and serve. For example:
@@ -106,7 +115,7 @@
  *
  *  stylesheet        Set with the location of an optional stylesheet that will be used
  *                    to decorate the directory listing html.
- *                    
+ *
  *  etags             If True, weak etags will be generated and handled.
  *
  *  maxCacheSize      The maximum total size of the cache or 0 for no cache.
@@ -125,11 +134,11 @@
  * encodingHeaderCacheSize
  *                    Max entries in a cache of ACCEPT-ENCODING headers.
  *
- * otherGzipFileExtensions  
+ * otherGzipFileExtensions
  *                    defaults to .svgz but a comma separated list of gzip equivalent file extensions can be supplied
  *
  -->
- <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   <servlet>
     <servlet-name>default</servlet-name>
     <servlet-class>org.eclipse.jetty.ee11.servlet.DefaultServlet</servlet-class>
@@ -143,7 +152,7 @@
     </init-param>
     <init-param>
       <param-name>welcomeServlets</param-name>
-      <param-value>exact</param-value>
+      <param-value>false</param-value>
     </init-param>
     <init-param>
       <param-name>redirectWelcome</param-name>
