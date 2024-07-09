@@ -1,7 +1,6 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
-  - package-ecosystem: "maven"
     target-branch: "jetty-12-ee11
     directory: "/"
     schedule:
