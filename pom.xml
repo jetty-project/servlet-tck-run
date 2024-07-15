@@ -272,6 +272,8 @@
               <http2.timeout>${http2.timeout}</http2.timeout>
               <servlet.tck.support.crossContext>false</servlet.tck.support.crossContext>
               <servlet.tck.slf4jimpl>org.eclipse.jetty:jetty-slf4j-impl</servlet.tck.slf4jimpl>
+              <sigTestClasspath>${project.build.directory}/servlet-api.jar:${project.build.directory}/jimages/java.base</sigTestClasspath>
+              <jimage.dir>${project.build.directory}/jimages</jimage.dir>
             </systemProperties>
             <!--            <includes>-->
             <!--              <include>**/URLClient*</include>-->
@@ -337,6 +339,28 @@
                   <includes>**/**cts_cert,**/**clientcert.jks,**/**clientcert.p12</includes>
                 </artifactItem>
               </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-servlet-api</id>
+            <phase>generate-test-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>jakarta.servlet</groupId>
+                  <artifactId>jakarta.servlet-api</artifactId>
+                  <version>${servlet.api.version}</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>servlet-api.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
             </configuration>
           </execution>
         </executions>
