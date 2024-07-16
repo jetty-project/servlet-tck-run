@@ -17,7 +17,7 @@ pipeline {
 
     choice( description: 'TCK Github org',
             name: 'GITHUB_ORG_TCK',
-            choices: ['jakartaee','olamy'])
+            choices: ['jakartaee','olamy','jetty-project'])
 
     string( defaultValue: 'jetty-12.1.x', description: 'GIT branch name to build Jetty (jetty-12.1.x)',
             name: 'JETTY_BRANCH' )
@@ -27,7 +27,7 @@ pipeline {
 
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
-            choices: ['arquillian','olamy'] )
+            choices: ['arquillian','olamy','jetty-project'] )
 
     string( defaultValue: 'jetty-12-ee11', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
