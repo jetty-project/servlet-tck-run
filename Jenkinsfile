@@ -25,8 +25,12 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
-    string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
+    string( defaultValue: 'SNAPSHOT', description: 'TCK Version',
             name: 'TCK_VERSION' )
+
+    string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version',
+            name: 'API_VERSION' )
+
 
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
@@ -114,8 +118,12 @@ pipeline {
                 sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server -Daether.connector.http.supportWebDav=true"
                 script {
                   if (TCK_VERSION == "SNAPSHOT") {
-                    def model = readMavenPom file: 'pom.xml'
+                    def model = readMavenPom file: 'tck/pom.xml'
                     TCK_VERSION = model.getVersion()
+                  }
+                  if (API_VERSION == "SNAPSHOT") {
+                    def model = readMavenPom file: 'pom.xml'
+                    API_VERSION = model.getVersion()
                   }
                 }
               }
@@ -132,7 +140,7 @@ pipeline {
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
                    "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
             configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-              sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djakarta.tck.version=$TCK_VERSION -Djetty.version=$JETTY_VERSION $MVN_ARGS"
+              sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djakarta.tck.version=$TCK_VERSION -Dservlet.api.version=$API_VERSION -Djetty.version=$JETTY_VERSION $MVN_ARGS"
             }
           }
         }
