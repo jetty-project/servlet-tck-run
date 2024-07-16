@@ -25,6 +25,9 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
+    string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
+            name: 'TCK_VERSION' )
+
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
             choices: ['arquillian','olamy','jetty-project'] )
@@ -110,8 +113,8 @@ pipeline {
                 //sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
                 sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server -Daether.connector.http.supportWebDav=true"
                 script {
-                  if (JETTY_VERSION == "SNAPSHOT") {
-                    def model = readMavenPom file: 'tck/pom.xml'
+                  if (TCK_VERSION == "SNAPSHOT") {
+                    def model = readMavenPom file: 'pom.xml'
                     TCK_VERSION = model.getVersion()
                   }
                 }
