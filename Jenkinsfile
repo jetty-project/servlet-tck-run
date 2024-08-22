@@ -17,7 +17,7 @@ pipeline {
 
     choice( description: 'TCK Github org',
             name: 'GITHUB_ORG_TCK',
-            choices: ['jakartaee','olamy'])
+            choices: ['jakartaee','olamy','jetty-project','markt-asf'])
 
     string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
             name: 'JETTY_BRANCH' )
