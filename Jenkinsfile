@@ -12,7 +12,7 @@ pipeline {
     buildDiscarder logRotator( numToKeepStr: '50' )
   }
   parameters {
-    string( defaultValue: 'master', description: 'GIT branch name to build TCK (master/6.1.x)',
+    string( defaultValue: '6.1.x', description: 'GIT branch name to build TCK (master/6.1.x)',
             name: 'TCK_BRANCH' )
 
     choice( description: 'TCK Github org',
