@@ -61,6 +61,7 @@ pipeline {
                       if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
                         JETTY_VERSION = model.getVersion()
+                        echo "Read JETTY_VERSION $JETTY_VERSION"
                       }
                     }
                   }
