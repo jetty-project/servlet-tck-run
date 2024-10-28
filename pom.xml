@@ -19,7 +19,7 @@
     <arquillian.jetty.version>2.0.1.Final-SNAPSHOT</arquillian.jetty.version>
     <arquillian.jetty.artifactId>arquillian-jetty-embedded-12-ee11</arquillian.jetty.artifactId>
     <jetty.version>12.1.0-SNAPSHOT</jetty.version> <!-- 11.0.9-SNAPSHOT -->
-    <surefire.version>3.5.2</surefire.version>
+    <surefire.version>3.5.3</surefire.version>
     <jakarta.tck.version>6.1.0</jakarta.tck.version>
     <servlet.api.version>6.1.0</servlet.api.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
@@ -62,7 +62,8 @@
       <dependency>
         <groupId>org.jboss.arquillian</groupId>
         <artifactId>arquillian-bom</artifactId>
-        <version>1.9.3.Final</version>
+<!--        <version>1.9.5.Final-SNAPSHOT</version>-->
+        <version>1.9.4.Final</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -118,6 +119,12 @@
       <groupId>org.jboss.arquillian.container</groupId>
       <artifactId>${arquillian.jetty.artifactId}</artifactId>
       <version>${arquillian.jetty.version}</version>
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>org.eclipse.jetty.ee11</groupId>-->
+<!--          <artifactId>jetty-ee11-cdi</artifactId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
