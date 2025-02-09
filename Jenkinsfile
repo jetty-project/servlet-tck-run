@@ -31,7 +31,6 @@ pipeline {
     string( defaultValue: '6.1.0', description: 'Servlet API Version',
             name: 'API_VERSION' )
 
-
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN',
             choices: ['arquillian','olamy','jetty-project'] )
@@ -130,6 +129,10 @@ pipeline {
       }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7e2909a (use released TCK)
 //    stage("Checkout Build TCK Sources") {
 //      steps {
 //        ws('tck') {
