@@ -129,7 +129,7 @@ pipeline {
     }
 
 
-    stage("Run TCK") {.0
+    stage("Run TCK") {
       steps {
         timeout(time: 90, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
