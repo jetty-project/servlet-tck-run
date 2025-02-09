@@ -142,7 +142,7 @@ pipeline {
           }
           publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
                         text: 'you can publish checks in pipeline script',
-                        detailsURL: '$BUILD_URL'          
+                        detailsURL: "$BUILD_URL"         
         }
       }
       post {
