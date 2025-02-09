@@ -137,12 +137,12 @@ pipeline {
                    "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
                    "MAVEN_OPTS=-Xms4g -Xmx8g -Djava.awt.headless=true"]) {
             configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-              sh "mvn -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION $MVN_ARGS"
+              sh "mvn -v -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION $MVN_ARGS"
             }
           }
           publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
                         text: 'you can publish checks in pipeline script',
-                        detailsURL: 'https://webtide.com/what-we-do/'          
+                        detailsURL: '$BUILD_URL'          
         }
       }
       post {
