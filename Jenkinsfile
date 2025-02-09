@@ -140,8 +140,8 @@ pipeline {
               sh "mvn -v -nsu -ntp -s $GLOBAL_MVN_SETTINGS -Dmaven.test.failure.ignore=true -V -B -U clean verify -e -Djetty.version=$JETTY_VERSION $MVN_ARGS"
             }
           }
-          publishChecks name: 'example', title: 'Pipeline Check', summary: 'check through pipeline',
-                        text: 'you can publish checks in pipeline script',
+          publishChecks name: 'example', title: 'Pipeline Check', summary: "check through pipeline: $BUILD_URL",
+                        text: "you can publish checks in pipeline script: $BUILD_URL",
                         detailsURL: "$BUILD_URL"         
         }
       }
