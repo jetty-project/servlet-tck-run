@@ -96,29 +96,40 @@ pipeline {
 
       }
     }
-    stage("Checkout Build TCK Sources") {
+
+
+//    stage("Checkout Build TCK Sources") {
+//      steps {
+//        ws('tck') {
+//          deleteDir()
+//          checkout([$class: 'GitSCM',
+//                    branches: [[name: "*/$TCK_BRANCH"]],
+//                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+//                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/servlet']]])
+//          timeout(time: 30, unit: 'MINUTES') {
+//            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+//                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
+//                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+//              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+//                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+
+    stage("Install TCK") {
       steps {
-        ws('tck') {
-          deleteDir()
-          checkout([$class: 'GitSCM',
-                    branches: [[name: "*/$TCK_BRANCH"]],
-                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/servlet']]])
-          timeout(time: 30, unit: 'MINUTES') {
-            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
-                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                //sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
-                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
-              }
-            }
-          }
-        }
+        sh 'wget -O jakarta-servlet-tck.zip wget  https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-6.1.0.zip'
+        sh 'unzip -j jakarta-servlet-tck.zip servlet-tck/artifacts/servlet-tck-runtime-6.1.0.jar servlet-tck/artifacts/servlet-tck-util-6.1.0.jar'
+        sh "mvn -ntp install:install-file -Dfile=./servlet-tck-runtime-6.1.0.jar -DgroupId=jakarta.tck -DartifactId=servlet-tck-runtime -Dversion=6.1.0 -Dpackaging=jar"
+        sh "mvn -ntp install:install-file -Dfile=./servlet-tck-util-6.1.0.jar -DgroupId=jakarta.tck -DartifactId=servlet-tck-util -Dversion=6.1.0 -Dpackaging=jar"
       }
     }
 
-    stage("Run TCK") {
+
+    stage("Run TCK") {.0
       steps {
         timeout(time: 90, unit: 'MINUTES') {
           withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
