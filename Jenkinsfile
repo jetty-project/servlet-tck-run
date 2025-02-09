@@ -28,7 +28,7 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'TCK Version',
             name: 'TCK_VERSION' )
 
-    string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version',
+    string( defaultValue: '6.1.0', description: 'Servlet API Version',
             name: 'API_VERSION' )
 
 
