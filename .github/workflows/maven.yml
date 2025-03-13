@@ -98,7 +98,7 @@ jobs:
         run: ./mvnw -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=false
 
       - name: Publish Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: Tests Report
           path: '**/target/surefire-reports/TEST-**.xml'
