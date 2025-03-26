@@ -12,25 +12,25 @@ pipeline {
     buildDiscarder logRotator( numToKeepStr: '50' )
   }
   parameters {
-    string( defaultValue: 'master', description: 'GIT branch name to build TCK (master/tck)',
-            name: 'TCK_BRANCH' )
+    string( defaultValue: '6.1.x', description: 'GIT branch name to build TCK (master/tck)',
+        name: 'TCK_BRANCH' )
 
     choice( description: 'TCK Github org',
-            name: 'GITHUB_ORG_TCK',
-            choices: ['jakartaee','olamy'])
+        name: 'GITHUB_ORG_TCK',
+        choices: ['jakartaee','olamy','jetty-project','markt-asf'])
 
     string( defaultValue: 'jetty-12.0.x', description: 'GIT branch name to build Jetty (jetty-12.0.x)',
-            name: 'JETTY_BRANCH' )
+        name: 'JETTY_BRANCH' )
 
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
-            name: 'JETTY_VERSION' )
+        name: 'JETTY_VERSION' )
 
     choice( description: 'Arquillian Github org',
-            name: 'GITHUB_ORG_ARQUILLIAN',
-            choices: ['arquillian','olamy'] )
+        name: 'GITHUB_ORG_ARQUILLIAN',
+        choices: ['arquillian','olamy'] )
 
     string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
-            name: 'ARQUILLIAN_JETTY_BRANCH' )
+        name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
 
@@ -56,11 +56,13 @@ pipeline {
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -DskipTests -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=dav:http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server"
+                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -DskipTests -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
                     script {
+                      echo "Before eval JETTY_VERSION $JETTY_VERSION"
                       if (JETTY_VERSION == "SNAPSHOT") {
                         def model = readMavenPom file: 'pom.xml'
                         JETTY_VERSION = model.getVersion()
+                        echo "Read JETTY_VERSION $JETTY_VERSION"
                       }
                     }
                   }
@@ -70,51 +72,63 @@ pipeline {
           }
         }
 
-       stage("Checkout Build Arquillian Jetty") {
-         steps {
-           ws('arquillian') {
-             deleteDir()
-             checkout([$class: 'GitSCM',
-                       branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
-                       extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                       userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
-             timeout(time: 30, unit: 'MINUTES') {
-               withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                        "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
-                        "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-                 configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                   sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
-                 }
-               }
-             }
-           }
-         }
-       }
-
-
-      }
-    }
-    stage("Checkout Build TCK Sources") {
-      steps {
-        ws('tck') {
-          deleteDir()
-          checkout([$class: 'GitSCM',
-                    branches: [[name: "*/$TCK_BRANCH"]],
-                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/servlet']]])
-          timeout(time: 30, unit: 'MINUTES') {
-            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
-                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
-                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
-              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
-                //sh "mvn -ntp install:install-file -Dfile=./lib/javatest.jar -DgroupId=javatest -DartifactId=javatest -Dversion=5.0 -Dpackaging=jar"
-                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=dav:http://nginx-cache-service.jenkins.svc.cluster.local:80 -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=remote-build-cache-server"
+        stage("Checkout Build Arquillian Jetty") {
+          steps {
+            ws('arquillian') {
+              deleteDir()
+              checkout([$class: 'GitSCM',
+                        branches: [[name: "*/$ARQUILLIAN_JETTY_BRANCH"]],
+                        extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+                        userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_ARQUILLIAN}/arquillian-container-jetty']]])
+              timeout(time: 30, unit: 'MINUTES') {
+                withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+                         "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
+                         "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+                  configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                    sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -DskipTests -T3 -e -Denforcer.skip=true"
+                  }
+                }
               }
             }
           }
         }
+
+
       }
     }
+
+
+//    stage("Checkout Build TCK Sources") {
+//      steps {
+//        ws('tck') {
+//          deleteDir()
+//          checkout([$class: 'GitSCM',
+//                    branches: [[name: "*/$TCK_BRANCH"]],
+//                    extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
+//                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/servlet']]])
+//          timeout(time: 30, unit: 'MINUTES') {
+//            withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
+//                     "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
+//                     "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
+//              configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+//                sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+
+    stage("Install TCK") {
+      steps {
+        sh 'wget -O jakarta-servlet-tck.zip https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-6.1.0.zip'
+        sh 'unzip -j jakarta-servlet-tck.zip servlet-tck/artifacts/servlet-tck-runtime-6.1.0.jar servlet-tck/artifacts/servlet-tck-util-6.1.0.jar servlet-tck/artifacts/servlet-tck-6.1.0.pom'
+        sh "mvn -ntp install:install-file -Dfile=./servlet-tck-runtime-6.1.0.jar -DgroupId=jakarta.tck -DartifactId=servlet-tck-runtime -Dversion=6.1.0 -Dpackaging=jar"
+        sh "mvn -ntp install:install-file -Dfile=./servlet-tck-util-6.1.0.jar -DgroupId=jakarta.tck -DartifactId=servlet-tck-util -Dversion=6.1.0 -Dpackaging=jar"
+        sh "mvn -ntp install:install-file -Dfile=./servlet-tck-6.1.0.pom -DgroupId=jakarta.tck -DartifactId=servlet-tck -Dversion=6.1.0 -Dpackaging=pom"
+      }
+    }
+
 
     stage("Run TCK") {
       steps {
