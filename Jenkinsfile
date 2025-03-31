@@ -129,10 +129,6 @@ pipeline {
       }
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7e2909a (use released TCK)
 //    stage("Checkout Build TCK Sources") {
 //      steps {
 //        ws('tck') {
