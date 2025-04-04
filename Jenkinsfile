@@ -47,7 +47,7 @@ pipeline {
 
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
 
-    string( defaultValue: '', description: 'Extra Maven Args', name: 'MVN_ARGS' )
+    string( defaultValue: '-Djunit.jupiter.execution.parallel.enabled=true', description: 'Extra Maven Args', name: 'MVN_ARGS' )
 
   }
 
