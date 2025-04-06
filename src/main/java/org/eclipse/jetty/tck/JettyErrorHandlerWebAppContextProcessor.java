@@ -1,7 +1,7 @@
 package org.eclipse.jetty.tck;
 
 import org.eclipse.jetty.ee11.webapp.WebAppContext;
-import org.jboss.arquillian.container.jetty.embedded_12_ee11.WebAppContextProcessor;
+import org.jboss.arquillian.container.jetty.embedded_12_1_ee11.WebAppContextProcessor;
 import org.jboss.shrinkwrap.api.Archive;
 
 import java.net.URISyntaxException;
