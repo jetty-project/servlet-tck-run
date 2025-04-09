@@ -19,6 +19,9 @@ pipeline {
             name: 'GITHUB_ORG_TCK',
             choices: ['jakartaee','olamy','jetty-project','markt-asf'])
 
+    string( defaultValue: 'servlet', description: 'Repository name with tck and servlet API',
+        name: 'TCK_REPO_NAME' )
+
     string( defaultValue: 'jetty-12.1.x', description: 'GIT branch name to build Jetty (jetty-12.1.x)',
             name: 'JETTY_BRANCH' )
 
@@ -136,7 +139,7 @@ pipeline {
           checkout([$class: 'GitSCM',
                     branches: [[name: "*/$TCK_BRANCH"]],
                     extensions: [[$class: 'CloneOption', depth: 1, noTags: true, shallow: true]],
-                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/servlet']]])
+                    userRemoteConfigs: [[url: 'https://github.com/${GITHUB_ORG_TCK}/${TCK_REPO_NAME}']]])
           timeout(time: 30, unit: 'MINUTES') {
             withEnv(["JAVA_HOME=${tool "$JDKBUILD"}",
                      "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
