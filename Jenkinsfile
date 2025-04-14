@@ -28,10 +28,10 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
-    string( defaultValue: '6.1.0', description: 'TCK Version',
+    string( defaultValue: 'SNAPSHOT', description: 'TCK Version (6.1.0/SNAPSHOT)',
             name: 'TCK_VERSION' )
 
-    string( defaultValue: '6.1.0', description: 'Servlet API Version',
+    string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version (6.1.0/SNAPSHOT)',
             name: 'API_VERSION' )
 
     choice( description: 'Arquillian Github org',
