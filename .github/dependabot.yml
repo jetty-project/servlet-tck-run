@@ -30,3 +30,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+  - package-ecosystem: "maven"
+    target-branch: "jetty-12-1-ee11"
+    directory: "/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "github-actions"
+    target-branch: "jetty-12-1-ee11"
+    directory: "/"
+    schedule:
+      interval: "daily"
