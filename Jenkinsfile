@@ -72,6 +72,9 @@ pipeline {
                          "PATH+MAVEN=${env.JAVA_HOME}/bin:${tool 'maven3'}/bin",
                          "MAVEN_OPTS=-Xms2g -Xmx4g -Djava.awt.headless=true"]) {
                   configFileProvider([configFile(fileId: 'oss-settings.xml', variable: 'GLOBAL_MVN_SETTINGS')]) {
+                    sh "mkdir ~/.mimir"
+                    sh "cp jenkins-mimir-daemon.properties ~/.mimir/daemon.properties"
+                    sh "echo 'mimir.jgroups.enabled=false' >> ~/.mimir/daemon.properties"
                     sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B -U clean install -T5 -e -DskipTests -Dmaven.build.cache.restoreGeneratedSources=false -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
                     script {
                       if (JETTY_VERSION == "SNAPSHOT") {
