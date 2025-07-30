@@ -28,7 +28,7 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
-    string( defaultValue: 'SNAPSHOT', description: 'TCK Version (6.1.0/SNAPSHOT)',
+    string( defaultValue: '6.1.0', description: 'TCK Version (6.1.0/SNAPSHOT to build from sources)',
             name: 'TCK_VERSION' )
 
     string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version (6.1.0/SNAPSHOT)',
@@ -40,12 +40,12 @@ pipeline {
 
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN_CORE',
-            choices: ['olamy','arquillian','jetty-project'] )
+            choices: ['arquillian','olamy','jetty-project'] )
 
     string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
             name: 'ARQUILLIAN_JETTY_BRANCH' )
 
-    string( defaultValue: 'tck-multithread-failures', description: 'GIT branch name to build arquillian Core (master/tck-all-changes)',
+    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Core (master/tck-multithread-failures)',
             name: 'ARQUILLIAN_CORE_BRANCH' )
 
     string( defaultValue: 'jdk17', description: 'JDK to build Jetty', name: 'JDKBUILD' )
