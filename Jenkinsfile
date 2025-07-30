@@ -190,6 +190,9 @@ pipeline {
       }
       post {
         always {
+          script{
+            currentBuild.description = "Build TCK Jetty branch ${JETTY_BRANCH}, Jetty Version ${JETTY_VERSION}, jdk ${JDKBUILD}"
+          }
           junit testResults: '**/surefire-reports/TEST-**.xml'
         }
       }
