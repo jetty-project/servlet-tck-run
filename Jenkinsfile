@@ -38,12 +38,12 @@ pipeline {
             name: 'GITHUB_ORG_ARQUILLIAN',
             choices: ['arquillian','olamy','jetty-project'] )
 
+    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
+        name: 'ARQUILLIAN_JETTY_BRANCH' )
+
     choice( description: 'Arquillian Github org',
             name: 'GITHUB_ORG_ARQUILLIAN_CORE',
             choices: ['arquillian','olamy','jetty-project'] )
-
-    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
-            name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     string( defaultValue: 'main', description: 'GIT branch name to build arquillian Core (master/tck-multithread-failures)',
             name: 'ARQUILLIAN_CORE_BRANCH' )
