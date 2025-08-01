@@ -18,7 +18,7 @@
     <slf4j.version>2.0.17</slf4j.version>
     <arquillian.jetty.version>2.0.1.Final-SNAPSHOT</arquillian.jetty.version>
     <arquillian.jetty.artifactId>arquillian-jetty-embedded-12-ee10</arquillian.jetty.artifactId>
-    <jetty.version>12.0.20-SNAPSHOT</jetty.version>
+    <jetty.version>12.1.0.beta2</jetty.version>
     <surefire.version>3.5.3</surefire.version>
     <jakarta.tck.version>6.1.0</jakarta.tck.version>
     <servlet.api.version>6.0.0</servlet.api.version>
