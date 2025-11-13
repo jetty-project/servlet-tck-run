@@ -81,6 +81,7 @@ pipeline {
                         def model = readMavenPom file: 'pom.xml'
                         JETTY_VERSION = model.getVersion()
                       }
+                      sh "echo Jetty Version is ${JETTY_VERSION}"
                     }
                   }
                 }
