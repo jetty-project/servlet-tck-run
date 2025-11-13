@@ -25,7 +25,7 @@ public class AppTest extends HttpServletResponseWrapperTests
 //        System.setProperty("servlet.tck.support.crossContext", "false");
 //        //super.invalidateHttpSessionTest();
 //        super.flushBufferTest();
-        super.setCharacterEncodingTest();
+        super.getWriterTest();
     }
 
 }
