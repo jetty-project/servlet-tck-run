@@ -1,22 +1,14 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
-    target-branch: "jetty-12-1-ee11
+    target-branch: "jetty-12-1-ee11"
+    commit-message:
+        prefix: "[jetty-12-1-ee11] "
     directory: "/"
     schedule:
       interval: "daily"
   - package-ecosystem: "github-actions"
-    target-branch: "jetty-12-ee10"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "maven"
-    target-branch: "jetty-12-ee9"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "github-actions"
-    target-branch: "jetty-12-ee9"
+    target-branch: "jetty-12-1-ee11"
     directory: "/"
     schedule:
       interval: "daily"
