@@ -40,7 +40,7 @@ jobs:
     steps:
 
       - name: Checkout Arquillian
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: 'arquillian/arquillian-container-jetty'
           ref: 'master'
@@ -60,7 +60,7 @@ jobs:
         run: ./mvnw install -B -U
 
       - name: Checkout Arquillian Core
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: 'olamy/arquillian-core'
           ref: 'tck-multithread-failures'
@@ -80,7 +80,7 @@ jobs:
         run: ./mvnw install -B -U
 
 #      - name: Checkout Servlet TCK
-#        uses: actions/checkout@v5
+#        uses: actions/checkout@v6
 #        with:
 #          repository: 'jakartaee/servlet'
 #          ref: '6.1.x'
@@ -100,7 +100,7 @@ jobs:
 #        run: ./mvnw -V -B -U clean install -DskipTests -e  -B -U
 
       - name: Checkout TCK Run
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up Maven
         run:
