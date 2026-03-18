@@ -151,12 +151,14 @@ pipeline {
                 sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
                 script {
                   if (TCK_VERSION == "SNAPSHOT") {
-                    def model = readMavenPom file: 'tck/pom.xml'
-                    TCK_VERSION = model.getVersion()
+//                     def model = readMavenPom file: 'tck/pom.xml'
+//                     TCK_VERSION = model.getVersion()
+                    TCK_VERSION = sh(script: "mvn -N help:evaluate -f tck/pom.xml -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
                   if (API_VERSION == "SNAPSHOT") {
-                    def model = readMavenPom file: 'pom.xml'
-                    API_VERSION = model.getVersion()
+//                     def model = readMavenPom file: 'pom.xml'
+//                     API_VERSION = model.getVersion()
+                    API_VERSION = sh(script: "mvn -N help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
                 }
               }
