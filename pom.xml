@@ -282,7 +282,8 @@
               -Djava.protocol.handler.pkgs=javax.net.ssl
               -Djavax.net.ssl.keyStore=${project.build.testOutputDirectory}/certificates/clientcert.jks
               -Djavax.net.ssl.keyStorePassword=changeit
-              -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
+              -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks
+              -Dorg.apache.maven.user-settings=${env.GLOBAL_MVN_SETTINGS}</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <dependenciesToScan>
               <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
