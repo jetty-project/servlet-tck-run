@@ -155,11 +155,13 @@ pipeline {
 //                     TCK_VERSION = model.getVersion()
                     TCK_VERSION = sh(script: "mvn -N help:evaluate -f tck/pom.xml -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
+                  sh "echo TCK_VERSION is ${TCK_VERSION}"
                   if (API_VERSION == "SNAPSHOT") {
 //                     def model = readMavenPom file: 'pom.xml'
 //                     API_VERSION = model.getVersion()
-                    API_VERSION = sh(script: "mvn -N help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+                    API_VERSION = sh(script: "mvn -N help:evaluate -f api/pom -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
+                  sh "echo API_VERSION is ${API_VERSION}"
                 }
               }
             }
