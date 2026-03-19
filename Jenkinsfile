@@ -151,14 +151,10 @@ pipeline {
                 sh "mvn -ntp -s $GLOBAL_MVN_SETTINGS -V -B clean install -e -Dmaven.build.cache.remote.url=http://nexus-service.nexus.svc.cluster.local:8081/repository/maven-build-cache -Dmaven.build.cache.remote.enabled=true -Dmaven.build.cache.remote.save.enabled=true -Dmaven.build.cache.remote.server.id=nexus-cred"
                 script {
                   if (TCK_VERSION == "SNAPSHOT") {
-//                     def model = readMavenPom file: 'tck/pom.xml'
-//                     TCK_VERSION = model.getVersion()
                     TCK_VERSION = sh(script: "mvn -N help:evaluate -f tck/pom.xml -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
                   sh "echo TCK_VERSION is ${TCK_VERSION}"
                   if (API_VERSION == "SNAPSHOT") {
-//                     def model = readMavenPom file: 'pom.xml'
-//                     API_VERSION = model.getVersion()
                     API_VERSION = sh(script: "mvn -N help:evaluate -f api/pom.xml -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
                   }
                   sh "echo API_VERSION is ${API_VERSION}"
@@ -171,6 +167,9 @@ pipeline {
     }
 
     stage("Install TCK") {
+      when {
+        expression { params.TCK_VERSION != 'SNAPSHOT' || params.API_VERSION != 'SNAPSHOT' }
+      }
       steps {
           ws('tck-install') {
             sh 'wget -O jakarta-servlet-tck.zip https://download.eclipse.org/jakartaee/servlet/6.1/jakarta-servlet-tck-6.1.0.zip'
