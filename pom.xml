@@ -282,7 +282,8 @@
               -Djava.protocol.handler.pkgs=javax.net.ssl
               -Djavax.net.ssl.keyStore=${project.build.testOutputDirectory}/certificates/clientcert.jks
               -Djavax.net.ssl.keyStorePassword=changeit
-              -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks</argLine>
+              -Djavax.net.ssl.trustStore=${project.build.directory}/cacerts.jks
+              -Djetty.version=${jetty.version}</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <dependenciesToScan>
               <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
@@ -293,6 +294,11 @@
               <servlet.tck.slf4jimpl>org.eclipse.jetty:jetty-slf4j-impl</servlet.tck.slf4jimpl>
               <sigTestClasspath>${project.build.directory}/servlet-api.jar:${project.build.directory}/jimages/java.base</sigTestClasspath>
               <jimage.dir>${project.build.directory}/jimages</jimage.dir>
+              <!-- propagate Maven execution context to forked JVM for ShrinkWrap configureResolverViaPlugin() -->
+              <maven.execution.pom>${maven.execution.pom}</maven.execution.pom>
+              <maven.execution.settings>${maven.execution.settings}</maven.execution.settings>
+              <maven.execution.offline>${maven.execution.offline}</maven.execution.offline>
+              <maven.execution.localRepository>${maven.execution.localRepository}</maven.execution.localRepository>
             </systemProperties>
             <!--            <includes>-->
             <!--              <include>**/URLClient*</include>-->
