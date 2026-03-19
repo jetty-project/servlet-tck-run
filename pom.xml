@@ -295,9 +295,9 @@
               <servlet.tck.slf4jimpl>org.eclipse.jetty:jetty-slf4j-impl</servlet.tck.slf4jimpl>
               <sigTestClasspath>${project.build.directory}/servlet-api.jar:${project.build.directory}/jimages/java.base</sigTestClasspath>
               <jimage.dir>${project.build.directory}/jimages</jimage.dir>
-              <!-- propagate Maven execution context to forked JVM for ShrinkWrap configureResolverViaPlugin() -->
-              <maven.execution.offline>false</maven.execution.offline>
-              <maven.execution.settings>${shrinkwrap.settings.file}</maven.execution.settings>
+              <!-- ShrinkWrap resolver properties for configureResolverViaPlugin() -->
+              <org.apache.maven.offline>false</org.apache.maven.offline>
+              <org.apache.maven.user-settings>${shrinkwrap.settings.file}</org.apache.maven.user-settings>
             </systemProperties>
             <!--            <includes>-->
             <!--              <include>**/URLClient*</include>-->
