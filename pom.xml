@@ -12,6 +12,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <shrinkwrap.settings.file></shrinkwrap.settings.file>
     <maven.compiler.sources>17</maven.compiler.sources>
     <maven.compiler.release>17</maven.compiler.release>
     <junit.version>6.0.2</junit.version>
@@ -295,10 +296,8 @@
               <sigTestClasspath>${project.build.directory}/servlet-api.jar:${project.build.directory}/jimages/java.base</sigTestClasspath>
               <jimage.dir>${project.build.directory}/jimages</jimage.dir>
               <!-- propagate Maven execution context to forked JVM for ShrinkWrap configureResolverViaPlugin() -->
-              <maven.execution.pom>${maven.execution.pom}</maven.execution.pom>
-              <maven.execution.settings>${maven.execution.settings}</maven.execution.settings>
-              <maven.execution.offline>${maven.execution.offline}</maven.execution.offline>
-              <maven.execution.localRepository>${maven.execution.localRepository}</maven.execution.localRepository>
+              <maven.execution.offline>false</maven.execution.offline>
+              <maven.execution.settings>${shrinkwrap.settings.file}</maven.execution.settings>
             </systemProperties>
             <!--            <includes>-->
             <!--              <include>**/URLClient*</include>-->
@@ -465,4 +464,18 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <profiles>
+    <profile>
+      <id>jenkins</id>
+      <activation>
+        <property>
+          <name>env.GLOBAL_MVN_SETTINGS</name>
+        </property>
+      </activation>
+      <properties>
+        <shrinkwrap.settings.file>${env.GLOBAL_MVN_SETTINGS}</shrinkwrap.settings.file>
+      </properties>
+    </profile>
+  </profiles>
 </project>
