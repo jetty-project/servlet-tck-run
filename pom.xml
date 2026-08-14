@@ -18,12 +18,12 @@
     <junit.version>6.0.2</junit.version>
     <slf4j.version>2.0.17</slf4j.version>
     <arquillian.jetty.version>2.0.1.Final-SNAPSHOT</arquillian.jetty.version>
-    <arquillian.core.version>1.10.1.Final</arquillian.core.version>
+    <arquillian.core.version>1.11.0.Final-SNAPSHOT</arquillian.core.version>
 <!--    <arquillian.core.version>1.10.1.Final-SNAPSHOT</arquillian.core.version>-->
     <arquillian.jetty.artifactId>arquillian-jetty-embedded-12-1-ee11</arquillian.jetty.artifactId>
-    <jetty.version>12.1.7</jetty.version>
+    <jetty.version>12.1.12</jetty.version>
     <surefire.version>3.5.4</surefire.version>
-    <jakarta.tck.version>6.1.0</jakarta.tck.version>
+    <jakarta.tck.version>6.1.2</jakarta.tck.version>
     <servlet.api.version>6.1.0</servlet.api.version>
     <fork.argLine>-Xmx8g -Xms4g</fork.argLine>
     <http2.timeout></http2.timeout>
@@ -88,7 +88,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>jakarta.tck</groupId>
+      <groupId>jakarta.servlet.tck</groupId>
       <artifactId>servlet-tck-runtime</artifactId>
       <version>${jakarta.tck.version}</version>
       <exclusions>
@@ -103,7 +103,7 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>jakarta.tck</groupId>
+      <groupId>jakarta.servlet.tck</groupId>
       <artifactId>servlet-tck-util</artifactId>
       <version>${jakarta.tck.version}</version>
     </dependency>
@@ -287,7 +287,7 @@
               -Djetty.version=${jetty.version}</argLine>
             <forkedProcessTimeoutInSeconds>15000</forkedProcessTimeoutInSeconds>
             <dependenciesToScan>
-              <dependenciesToScan>jakarta.tck:servlet-tck-runtime</dependenciesToScan>
+              <dependenciesToScan>jakarta.servlet.tck:servlet-tck-runtime</dependenciesToScan>
             </dependenciesToScan>
             <systemProperties>
               <http2.timeout>${http2.timeout}</http2.timeout>
@@ -309,6 +309,7 @@
             <trimStackTrace>false</trimStackTrace>
             <properties>
               <configurationParameters>
+                arquillian.junit.jupiter.manager.perClass=true
                 junit.jupiter.execution.parallel.enabled=${junit.jupiter.execution.parallel.enabled}
                 junit.jupiter.execution.parallel.mode.default=${junit.jupiter.execution.parallel.mode.default}
                 junit.jupiter.execution.parallel.mode.classes.default=${junit.jupiter.execution.parallel.mode.classes.default}
@@ -355,7 +356,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>jakarta.tck</groupId>
+                  <groupId>jakarta.servlet.tck</groupId>
                   <artifactId>servlet-tck-runtime</artifactId>
                   <type>jar</type>
                   <overWrite>true</overWrite>
