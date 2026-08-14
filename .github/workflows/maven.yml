@@ -114,7 +114,7 @@ jobs:
 #          ./mvnw -ntp install:install-file -Dfile=./servlet-tck-util-6.1.0.jar -DgroupId=jakarta.tck -DartifactId=servlet-tck-util -Dversion=6.1.0 -Dpackaging=jar &&
 #          ./mvnw -ntp install:install-file -Dfile=./servlet-tck-6.1.0.pom -DgroupId=jakarta.tck -DartifactId=servlet-tck -Dversion=6.1.0 -Dpackaging=pom
 
-      - name: Build TCK Run with Maven
+      - name: Run TCK
         run: ./mvnw -V -B -U -am clean verify -e  -B -Dmaven.test.failure.ignore=false -Djunit.jupiter.execution.parallel.enabled=true
 
       - name: Publish Test Report
