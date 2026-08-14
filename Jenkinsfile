@@ -28,7 +28,7 @@ pipeline {
     string( defaultValue: 'SNAPSHOT', description: 'Jetty Version',
             name: 'JETTY_VERSION' )
 
-    string( defaultValue: '6.1.0', description: 'TCK Version (6.1.0/SNAPSHOT to build from sources)',
+    string( defaultValue: '6.1.2', description: 'TCK Version (6.1.0/SNAPSHOT to build from sources)',
             name: 'TCK_VERSION' )
 
     string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version (6.1.0/SNAPSHOT)',
