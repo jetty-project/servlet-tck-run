@@ -31,7 +31,7 @@ pipeline {
     string( defaultValue: '6.1.2', description: 'TCK Version (6.1.0/SNAPSHOT to build from sources)',
             name: 'TCK_VERSION' )
 
-    string( defaultValue: 'SNAPSHOT', description: 'Servlet API Version (6.1.0/SNAPSHOT)',
+    string( defaultValue: '6.1.0', description: 'Servlet API Version (6.1.0/SNAPSHOT)',
             name: 'API_VERSION' )
 
     choice( description: 'Arquillian Github org',
