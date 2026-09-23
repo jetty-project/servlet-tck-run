@@ -38,7 +38,7 @@ pipeline {
             name: 'GITHUB_ORG_ARQUILLIAN',
             choices: ['arquillian','olamy','jetty-project'] )
 
-    string( defaultValue: 'master', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
+    string( defaultValue: 'main', description: 'GIT branch name to build arquillian Jetty (master/tck-all-changes)',
         name: 'ARQUILLIAN_JETTY_BRANCH' )
 
     choice( description: 'Arquillian Github org',
