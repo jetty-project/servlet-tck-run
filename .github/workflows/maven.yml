@@ -39,42 +39,42 @@ jobs:
 
     steps:
 
-      - name: Checkout Arquillian
-        uses: actions/checkout@v5
-        with:
-          repository: 'arquillian/arquillian-container-jetty'
-          ref: 'main'
+#      - name: Checkout Arquillian
+#        uses: actions/checkout@v5
+#        with:
+#          repository: 'arquillian/arquillian-container-jetty'
+#          ref: 'main'
 
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'temurin'
           cache: 'maven'
 
+#      - name: Set up Maven
+#        run:
+#          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.10.0
+
+#      - name: Build Arquillian with Maven
+#        run: ./mvnw install -B -U
+
+#      - name: Checkout Arquillian Core
+#        uses: actions/checkout@v5
+#        with:
+#          repository: 'olamy/arquillian-core'
+#          ref: 'parallel-testing'
+
+#      - name: Set up JDK
+#        uses: actions/setup-java@v5
+#        with:
+#          java-version: 21
+#          distribution: 'temurin'
+#          cache: 'maven'
+
       - name: Set up Maven
         run:
-          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.16
-
-      - name: Build Arquillian with Maven
-        run: ./mvnw install -B -U
-
-      - name: Checkout Arquillian Core
-        uses: actions/checkout@v5
-        with:
-          repository: 'olamy/arquillian-core'
-          ref: 'parallel-testing'
-
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Set up Maven
-        run:
-          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.16
+          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.10.0
 
       - name: Build Arquillian with Maven
         run: ./mvnw install -B -U
@@ -85,12 +85,12 @@ jobs:
 #          repository: 'jakartaee/servlet'
 #          ref: '6.1.x'
 
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: 'temurin'
-          cache: 'maven'
+#      - name: Set up JDK
+#        uses: actions/setup-java@v5
+#        with:
+#          java-version: 21
+#          distribution: 'temurin'
+#          cache: 'maven'
 
 #      - name: Set up Maven
 #        run:
@@ -99,12 +99,12 @@ jobs:
 #      - name: Build Servlet TCK with Maven
 #        run: ./mvnw -V -B -U clean install -DskipTests -e  -B -U
 
-      - name: Checkout TCK Run
-        uses: actions/checkout@v5
-
-      - name: Set up Maven
-        run:
-          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.16
+#      - name: Checkout TCK Run
+#        uses: actions/checkout@v5
+#
+#      - name: Set up Maven
+#        run:
+#          mvn --errors --batch-mode --show-version org.apache.maven.plugins:maven-wrapper-plugin:3.2.0:wrapper -Dmaven=3.9.16
 
 #      - name: Install TCK jars
 #        run: |
