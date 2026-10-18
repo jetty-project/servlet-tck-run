@@ -39,6 +39,9 @@ jobs:
 
     steps:
 
+      - name: Checkout TCK Run
+        uses: actions/checkout@v5
+
 #      - name: Checkout Arquillian
 #        uses: actions/checkout@v5
 #        with:
